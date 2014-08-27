@@ -1,0 +1,253 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* up_internship
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20130522-231057\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-08-21 15:01+0000\n"
+"PO-Revision-Date: 2014-08-21 15:01+0000\n"
+"Last-Translator: <lion_awake@163.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,end_date:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_end_date
+msgid "end date"
+msgstr "实习结束日期"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,checkin_hotel_date:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_checkin_hotel_date
+msgid "checkin hotel date"
+msgstr "住宿时间"
+
+#. module: up_internship
+#: selection:internship.request,meal_card_status:0
+msgid "reserved"
+msgstr "已保留"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,pledge_money_state:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_pledge_money_state
+msgid "pledge money state"
+msgstr "押金状态"
+
+#. module: up_internship
+#: view:internship.request:0
+#: model:ir.actions.act_window,name:up_internship.act_open_internship_request_view
+msgid "Internship Request"
+msgstr "实习申请"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "director approval"
+msgstr "所长审批"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,resignation_date:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_resignation_date
+msgid "resignation date"
+msgstr "离院日期"
+
+#. module: up_internship
+#: help:internship.request,meal_card_no:0
+msgid "meal card number"
+msgstr "饭卡号码"
+
+#. module: up_internship
+#: field:internship.request,diet_record:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_diet_record
+msgid "diet record"
+msgstr "用餐记录"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "Group By..."
+msgstr "分组按照..."
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "stoped"
+msgstr "中止"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "manager approval"
+msgstr "部长审批"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "resignation"
+msgstr "离院"
+
+#. module: up_internship
+#: selection:internship.request,meal_card_status:0
+#: selection:internship.request,pledge_money_state:0
+msgid "returned"
+msgstr "已归还"
+
+#. module: up_internship
+#: selection:internship.request,pledge_money_state:0
+msgid "payed"
+msgstr "已支付"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "resigned"
+msgstr "已离院"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "acceptance"
+msgstr "接收"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "application"
+msgstr "申请"
+
+#. module: up_internship
+#: field:internship.request,state:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_state
+msgid "state"
+msgstr "状态"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "draft"
+msgstr "草稿"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,preset_instructor:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_preset_instructor
+msgid "preset instructor"
+msgstr "拟定指导员"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "HR approval"
+msgstr "人事审核"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,start_date:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_start_date
+msgid "start date"
+msgstr "实习开始日期"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "diet records upload"
+msgstr "用餐记录上传"
+
+#. module: up_internship
+#: model:ir.ui.menu,name:up_internship.menu_internship_request
+msgid "intership management"
+msgstr "实习管理"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "to resign"
+msgstr "离院申请"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,hotel_checkout_date:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_hotel_checkout_date
+msgid "hotel checkout date"
+msgstr "退房日期"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,internship:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_internship
+msgid "internship"
+msgstr "实习生"
+
+#. module: up_internship
+#: field:internship.request,preset_dept:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_preset_dept
+msgid "preset dept."
+msgstr "拟定部门"
+
+#. module: up_internship
+#: selection:internship.request,meal_card_status:0
+msgid "dispatched"
+msgstr "已发卡"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "meal card"
+msgstr "饭卡"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "accepted"
+msgstr "已入院"
+
+#. module: up_internship
+#: field:internship.request,arrival_notice:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_arrival_notice
+msgid "arrival notice"
+msgstr "入住通知书"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,checkin_company_date:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_checkin_company_date
+msgid "checkin company date"
+msgstr "报到日期"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,meal_card_status:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_meal_card_status
+msgid "meal card status"
+msgstr "饭卡状态"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "Preset dept."
+msgstr "拟定部门"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "checking out"
+msgstr "退房登记"
+
+#. module: up_internship
+#: model:ir.model,name:up_internship.model_internship_request
+msgid "internship.request"
+msgstr "实习生管理"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "meal card info"
+msgstr "饭卡信息录入"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,hotel_receptionist:0
+#: help:internship.request,hotel_receptionist:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_hotel_receptionist
+msgid "hotel receptionist "
+msgstr "迪富酒店接收人"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,meal_card_no:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_meal_card_no
+msgid "meal card no."
+msgstr "饭卡号码"
+

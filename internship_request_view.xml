@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_internship_request_tree" model="ir.ui.view">
+            <field name="name">internship.request.tree</field>
+            <field name="model">internship.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+            <tree string="Internship Request">
+                <field name="internship"/>
+            	<field name="preset_dept"/>
+            	<field name="preset_instructor"/>
+            	<field name="start_date"/>
+            	<field name="end_date"/>
+                <field name="state"/>
+            </tree>
+            </field>
+        </record>
+
+        <record id="view_internship_request_form" model="ir.ui.view">
+            <field name="name">internship.request.form</field>
+            <field name="model">internship.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+            <form string="Internship Request" version="7.0">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,director_audit,hr,meal_card,accepted,to_resign,resigned"/>
+                </header>
+                <sheet>
+                    <group><field name="internship"/></group>
+                    <group>
+                        <notebook>
+                            <page string="application">
+                                <group>
+                                    <field name="preset_dept"/>
+                                    <field name="preset_instructor"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                </group>
+                            </page>
+                            <page string="acceptance">
+                                <group>
+                                    <field name="checkin_company_date"/>
+                                    <field name="checkin_hotel_date"/>
+                                    <field name="hotel_receptionist"/>
+                                    <field name="arrival_notice"/>
+                                </group>
+                            </page>
+                            <page string="meal card">
+                                <group>
+                                    <field name="meal_card_no"/>
+                                    <field name="meal_card_status"/>
+                                    <field name="pledge_money_state"/>
+                                </group>
+                            </page>
+                            <page string="resignation">
+                                <group>
+                                    <field name="resignation_date"/>
+                                    <field name="diet_record"/>
+                                    <field name="hotel_checkout_date"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+            </form>
+            </field>
+        </record>
+
+        <record id="view_internship_request_search" model="ir.ui.view">
+            <field name="name">internship.request.search</field>
+            <field name="model">internship.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+            <search string="Internship Request">
+                <newline/>
+                <group expand="0" string="Group By...">
+                    <filter string="Preset dept." domain="[]" context="{'group_by':'preset_dept'}"/>
+                    <filter string="preset instructor" domain="[]" context="{'group_by':'preset_instructor'}"/>
+                    <filter string="start date" domain="[]" context="{'group_by':'start_date'}"/>
+                    <filter string="end date" domain="[]" context="{'group_by':'end_date'}"/>
+                    <filter string="checkin company date" domain="[]" context="{'group_by':'checkin_company_date'}"/>
+                    <filter string="checkin hotel date" domain="[]" context="{'group_by':'checkin_hotel_date'}"/>
+                    <filter string="hotel receptionist " domain="[]" context="{'group_by':'hotel_receptionist '}"/>
+                    <filter string="meal card no." domain="[]" context="{'group_by':'meal_card_no'}"/>
+                    <filter string="meal card status" domain="[]" context="{'group_by':'meal_card_status'}"/>
+                    <filter string="pledge money state" domain="[]" context="{'group_by':'pledge_money_state'}"/>
+                    <filter string="hotel checkout date" domain="[]" context="{'group_by':'hotel_checkout_date'}"/>
+                    <filter string="resignation date" domain="[]" context="{'group_by':'resignation_date'}"/>
+                    <filter string="internship" domain="[]" context="{'group_by':'internship'}"/>
+                </group>
+            </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_internship_request_view">
+            <field name="name">Internship Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internship.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_internship_request_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_internship_request_view_form">
+            <field name="act_window_id" ref="act_open_internship_request_view"/>
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_internship_request_form"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_internship_request_view_tree">
+            <field name="act_window_id" ref="act_open_internship_request_view"/>
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_internship_request_tree"/>
+        </record>
+
+        <menuitem name="intership management" id="menu_internship_request" sequence="10"
+                  parent="up_recuitment.menu_recruitment_root" action="act_open_internship_request_view"/>
+
+    </data>
+</openerp>
