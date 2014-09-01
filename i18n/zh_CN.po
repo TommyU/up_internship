@@ -251,3 +251,32 @@ msgstr "迪富酒店接收人"
 msgid "meal card no."
 msgstr "饭卡号码"
 
+#. module: up_internship
+#: view:internship.request:0
+msgid "submit"
+msgstr "提交"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "approve"
+msgstr "同意"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "reject"
+msgstr "驳回"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "cancel"
+msgstr "中止"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "to quit"
+msgstr "申请离院"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "audditing logs"
+msgstr "审批记录"

@@ -19,6 +19,7 @@
 #
 #/#############################################################################
 from osv import osv, fields
+from openerp.addons.workflow_china import workflow_func
 
 class internship_request(osv.osv):
     _name = 'internship.request'
@@ -53,6 +54,7 @@ class internship_request(osv.osv):
         'resignation_date': fields.date(string='resignation date',  required=False),
         'diet_record': fields.binary(string='diet record',  required=False),
         'internship': fields.many2one('hr.member', string='internship',  required=True),
+        'audditing_logs':fields.function(workflow_func._get_workflow_logs, string='auditting logs', type='one2many', relation="workflow.logs",readonly=True),
         }
 
     _defaults={

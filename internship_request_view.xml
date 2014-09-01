@@ -24,43 +24,50 @@
             <field name="arch" type="xml">
             <form string="Internship Request" version="7.0">
                 <header>
-                    <field name="state" widget="statusbar"
-                           statusbar_visible="draft,director_audit,hr,meal_card,accepted,to_resign,resigned"/>
+                    <button name="submit" type="workflow_submit" string="submit" states="draft,"/>
+                    <button name="submit" type="workflow_ok" string="approve" attrs="{'invisible':[('state','in',('draft','stoped','resigned','accepted'))]}"/>
+                    <button name="submit" type="workflow_ok" string="to quit" attrs="{'invisible':[('state','not in',('accepted',))]}"/>
+                    <button name="reject" type="workflow_no" string="reject" states="director_appr,"/>
+                    <button name="cancel" type="workflow_cancel" string="cancel" states="director_audit,hr,"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,director_audit,hr,meal_card,accepted,to_resign,resigned"/>
                 </header>
                 <sheet>
-                    <group><field name="internship"/></group>
+                    <group><field name="internship" attrs="{'readonly':[('state','not in',('draft',))]}"/></group>
                     <group>
                         <notebook>
                             <page string="application">
                                 <group>
-                                    <field name="preset_dept"/>
-                                    <field name="preset_instructor"/>
-                                    <field name="start_date"/>
-                                    <field name="end_date"/>
+                                    <field name="preset_dept" attrs="{'readonly':[('state','not in',('draft',))]}"/>
+                                    <field name="preset_instructor" attrs="{'readonly':[('state','not in',('draft',))]}"/>
+                                    <field name="start_date" attrs="{'readonly':[('state','not in',('draft',))]}"/>
+                                    <field name="end_date" attrs="{'readonly':[('state','not in',('draft',))]}"/>
                                 </group>
                             </page>
-                            <page string="acceptance">
+                            <page string="acceptance" states="hr,meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                 <group>
-                                    <field name="checkin_company_date"/>
-                                    <field name="checkin_hotel_date"/>
-                                    <field name="hotel_receptionist"/>
-                                    <field name="arrival_notice"/>
+                                    <field name="checkin_company_date" attrs="{'readonly':[('state','not in',('hr',))]}"/>
+                                    <field name="checkin_hotel_date" attrs="{'readonly':[('state','not in',('hr',))]}"/>
+                                    <field name="hotel_receptionist" attrs="{'readonly':[('state','not in',('hr',))]}"/>
+                                    <field name="arrival_notice" attrs="{'readonly':[('state','not in',('hr',))]}"/>
                                 </group>
                             </page>
-                            <page string="meal card">
+                            <page string="meal card" states="meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                 <group>
-                                    <field name="meal_card_no"/>
-                                    <field name="meal_card_status"/>
-                                    <field name="pledge_money_state"/>
+                                    <field name="meal_card_no"  attrs="{'readonly':[('state','not in',('meal_card',))]}"/>
+                                    <field name="meal_card_status"  attrs="{'readonly':[('state','not in',('meal_card',))]}"/>
+                                    <field name="pledge_money_state"  attrs="{'readonly':[('state','not in',('meal_card',))]}"/>
                                 </group>
                             </page>
-                            <page string="resignation">
+                            <page string="resignation" states="to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                 <group>
-                                    <field name="resignation_date"/>
-                                    <field name="diet_record"/>
-                                    <field name="hotel_checkout_date"/>
+                                    <field name="resignation_date"  attrs="{'readonly':[('state','not in',('to_resign',))]}"/>
+                                    <field name="diet_record" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'readonly':[('state','not in',('diet_record',))]}"/>
+                                    <field name="hotel_checkout_date" states="checking_out,resigned,stoped"  attrs="{'readonly':[('state','not in',('hotel_checkout_date',))]}"/>
                                 </group>
                             </page>
+                            <page string="audditing logs">
+                                <field name="audditing_logs"/>
+                             </page>
                         </notebook>
                     </group>
                 </sheet>

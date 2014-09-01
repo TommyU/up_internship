@@ -29,10 +29,11 @@
     'author': 'Tommy.Yu',
     'website': 'www.odoo.com',
     'images': [],
-    'depends': ['hr','up_recuitment'],
+    'depends': ['hr','up_recuitment','workflow_china'],
     'init_xml': [],
     'update_xml': [
         'internship_request_view.xml',
+        'internship_request_wkf.xml',
         'security/ir.model.access.csv',
     ],
     'demo_xml': [],

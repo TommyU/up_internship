@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="wkf_internship_request" model="workflow">
+            <field name="name">internship.request.basic</field>
+            <field name="osv">internship.request</field>
+            <field name="on_create">True</field>
+        </record>
+        <record id="internship_request_act_stoped" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="flow_stop">True</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'stoped'})</field>
+            <field name="name">stoped</field>
+        </record>
+        <record id="internship_request_act_resigned" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="flow_stop">True</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'resigned'})</field>
+            <field name="name">resigned</field>
+        </record>
+        <record id="internship_request_act_checking_out" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'checking_out'})</field>
+            <field name="name">checking_out</field>
+        </record>
+        <record id="internship_request_act_director_appr" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'director_appr'})</field>
+            <field name="name">director_appr</field>
+        </record>
+        <record id="internship_request_act_diet_record" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'diet_record'})</field>
+            <field name="name">diet_record</field>
+        </record>
+        <record id="internship_request_act_manager_appr" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'manager_appr'})</field>
+            <field name="name">manager_appr</field>
+        </record>
+        <record id="internship_request_act_to_resign" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'to_resign'})</field>
+            <field name="name">to_resign</field>
+        </record>
+        <record id="internship_request_act_accepted" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'accepted'})</field>
+            <field name="name">accepted</field>
+        </record>
+        <record id="internship_request_act_meal_card" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'meal_card'})</field>
+            <field name="name">meal_card</field>
+        </record>
+        <record id="internship_request_act_hr" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'hr'})</field>
+            <field name="name">hr</field>
+        </record>
+        <record id="internship_request_act_director_audit" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'director_audit'})</field>
+            <field name="name">director_audit</field>
+        </record>
+        <record id="internship_request_act_draft" model="workflow.activity">
+            <field name="wkf_id" ref="wkf_internship_request"/>
+            <field name="flow_start">True</field>
+            <field name="kind">function</field>
+            <field name="action">write({'state':'draft'})</field>
+            <field name="name">draft</field>
+        </record>
+        <record id="internship_request_trans_draft_2_director_audit" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_draft"/>
+            <field name="act_to" ref="internship_request_act_director_audit"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_hr_2_stoped" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_hr"/>
+            <field name="act_to" ref="internship_request_act_stoped"/>
+            <field name="signal">cancel</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_hr_2_meal_card" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_hr"/>
+            <field name="act_to" ref="internship_request_act_meal_card"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_director_audit_2_stoped" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_director_audit"/>
+            <field name="act_to" ref="internship_request_act_stoped"/>
+            <field name="signal">cancel</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_director_audit_2_hr" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_director_audit"/>
+            <field name="act_to" ref="internship_request_act_hr"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_meal_card_2_accepted" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_meal_card"/>
+            <field name="act_to" ref="internship_request_act_accepted"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_accepted_2_to_resign" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_accepted"/>
+            <field name="act_to" ref="internship_request_act_to_resign"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_to_resign_2_manager_appr" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_to_resign"/>
+            <field name="act_to" ref="internship_request_act_manager_appr"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_manager_appr_2_diet_record" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_manager_appr"/>
+            <field name="act_to" ref="internship_request_act_diet_record"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_diet_record_2_director_appr" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_diet_record"/>
+            <field name="act_to" ref="internship_request_act_director_appr"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_director_appr_2_diet_record" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_director_appr"/>
+            <field name="act_to" ref="internship_request_act_diet_record"/>
+            <field name="signal">reject</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_director_appr_2_checking_out" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_director_appr"/>
+            <field name="act_to" ref="internship_request_act_checking_out"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+        <record id="internship_request_trans_checking_out_2_resigned" model="workflow.transition">
+            <field name="act_from" ref="internship_request_act_checking_out"/>
+            <field name="act_to" ref="internship_request_act_resigned"/>
+            <field name="signal">submit</field>
+            <field name="condition">True</field>
+        </record>
+
+    </data>
+</openerp>
