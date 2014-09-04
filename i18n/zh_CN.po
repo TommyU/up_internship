@@ -334,3 +334,19 @@ msgstr "该实习生有另外一个实习申请单正在审批中。当一个实
 #, python-format
 msgid "Records that are not in draf status could not be deleted!"
 msgstr "不能删除非草稿状态的申请单。"
+
+#. module: up_internship
+#: field:internship.request,diet_record_needed:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_diet_record_needed
+msgid "diet records required"
+msgstr "是否上传用餐记录"
+
+#. module: up_internship
+#: selection:internship.request,diet_record_needed:0
+msgid "yes"
+msgstr "是"
+
+#. module: up_internship
+#: selection:internship.request,diet_record_needed:0
+msgid "no"
+msgstr "否"

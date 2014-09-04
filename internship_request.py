@@ -54,6 +54,7 @@ class internship_request(osv.osv):
         'pledge_money_state': fields.selection([('payed','payed'),('returned','returned')], string='pledge money state',  required=False),
         'hotel_checkout_date': fields.date(string='hotel checkout date',  required=False),
         'resignation_date': fields.date(string='resignation date',  required=False),
+        'diet_record_needed':fields.selection([('yes','yes'),('no','no')],string='diet records required'),
         'diet_record': fields.binary(string='diet record',  required=False),
         'internship': fields.many2one('hr.member', string='internship',  required=True),
         'audditing_logs':fields.function(workflow_func._get_workflow_logs, string='auditting logs', type='one2many', relation="workflow.logs",readonly=True),
