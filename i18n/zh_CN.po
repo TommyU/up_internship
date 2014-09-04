@@ -65,6 +65,11 @@ msgid "meal card number"
 msgstr "饭卡号码"
 
 #. module: up_internship
+#: help:internship.request,meal_card_no:0
+msgid "working card number"
+msgstr "工卡号码"
+
+#. module: up_internship
 #: field:internship.request,diet_record:0
 #: model:ir.model.fields,field_description:up_internship.field_internship_request_diet_record
 msgid "diet record"
@@ -192,6 +197,11 @@ msgid "meal card"
 msgstr "饭卡"
 
 #. module: up_internship
+#: view:internship.request:0
+msgid "working card"
+msgstr "工卡"
+
+#. module: up_internship
 #: selection:internship.request,state:0
 msgid "accepted"
 msgstr "已入院"
@@ -218,6 +228,13 @@ msgstr "饭卡状态"
 
 #. module: up_internship
 #: view:internship.request:0
+#: field:internship.request,meal_card_status:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_meal_card_status
+msgid "working card status"
+msgstr "工卡状态"
+
+#. module: up_internship
+#: view:internship.request:0
 msgid "Preset dept."
 msgstr "拟定部门"
 
@@ -237,6 +254,11 @@ msgid "meal card info"
 msgstr "饭卡信息录入"
 
 #. module: up_internship
+#: selection:internship.request,state:0
+msgid "working card info"
+msgstr "工作卡管理"
+
+#. module: up_internship
 #: view:internship.request:0
 #: field:internship.request,hotel_receptionist:0
 #: help:internship.request,hotel_receptionist:0
@@ -250,6 +272,20 @@ msgstr "迪富酒店接收人"
 #: model:ir.model.fields,field_description:up_internship.field_internship_request_meal_card_no
 msgid "meal card no."
 msgstr "饭卡号码"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,meal_card_no:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_meal_card_no
+msgid "working card no."
+msgstr "工卡号码"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,meal_card_memo:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_meal_card_memo
+msgid "working card memo"
+msgstr "工卡备注"
 
 #. module: up_internship
 #: view:internship.request:0
@@ -280,3 +316,21 @@ msgstr "申请离院"
 #: view:internship.request:0
 msgid "audditing logs"
 msgstr "审批记录"
+
+#. module: up_internship
+#: code:addons\up_internship\internship_request.py:74
+#, python-format
+msgid "Fobbidden!"
+msgstr "限制"
+
+#. module: up_internship
+#: code:addons\up_internship\internship_request.py:75
+#, python-format
+msgid "This intern has another request which is under audditting!."
+msgstr "该实习生有另外一个实习申请单正在审批中。当一个实习生进入到草稿-已离院状态间，用户不能再创建新的实习申请记录。"
+
+#. module: up_internship
+#: code:addons\up_internship\internship_request.py:83
+#, python-format
+msgid "Records that are not in draf status could not be deleted!"
+msgstr "不能删除非草稿状态的申请单。"

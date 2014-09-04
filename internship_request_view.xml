@@ -45,24 +45,25 @@
                             </page>
                             <page string="acceptance" states="hr,meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                 <group>
-                                    <field name="checkin_company_date" attrs="{'readonly':[('state','not in',('hr',))]}"/>
-                                    <field name="checkin_hotel_date" attrs="{'readonly':[('state','not in',('hr',))]}"/>
-                                    <field name="hotel_receptionist" attrs="{'readonly':[('state','not in',('hr',))]}"/>
-                                    <field name="arrival_notice" attrs="{'readonly':[('state','not in',('hr',))]}"/>
+                                    <field name="checkin_company_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                    <field name="checkin_hotel_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                    <field name="hotel_receptionist" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                    <field name="arrival_notice" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
                                 </group>
                             </page>
-                            <page string="meal card" states="meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
+                            <page string="working card" states="meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                 <group>
                                     <field name="meal_card_no"  attrs="{'readonly':[('state','not in',('meal_card',))]}"/>
-                                    <field name="meal_card_status"  attrs="{'readonly':[('state','not in',('meal_card',))]}"/>
-                                    <field name="pledge_money_state"  attrs="{'readonly':[('state','not in',('meal_card',))]}"/>
+                                    <field name="meal_card_status"  attrs="{'readonly':[('state','not in',('meal_card','manager_appr'))],'required':[('state','in',('meal_card','manager_appr'))]}"/>
+                                    <field name="pledge_money_state"  attrs="{'readonly':[('state','not in',('meal_card','manager_appr'))],'required':[('state','in',('meal_card','manager_appr'))]}"/>
+                                    <field name="meal_card_memo"  attrs="{'readonly':[('state','not in',('meal_card',))]}" widget="text"/>
                                 </group>
                             </page>
                             <page string="resignation" states="to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                 <group>
-                                    <field name="resignation_date"  attrs="{'readonly':[('state','not in',('to_resign',))]}"/>
-                                    <field name="diet_record" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'readonly':[('state','not in',('diet_record',))]}"/>
-                                    <field name="hotel_checkout_date" states="checking_out,resigned,stoped"  attrs="{'readonly':[('state','not in',('hotel_checkout_date',))]}"/>
+                                    <field name="resignation_date"  attrs="{'readonly':[('state','not in',('to_resign',))],'required':[('state','in',('to_resign',))]}"/>
+                                    <field name="diet_record" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'readonly':[('state','not in',('diet_record',))],'required':[('state','in',('diet_record',))]}"/>
+                                    <field name="hotel_checkout_date" states="checking_out,resigned,stoped"  attrs="{'readonly':[('state','not in',('checking_out',))],'required':[('state','in',('checking_out',))]}"/>
                                 </group>
                             </page>
                             <page string="audditing logs">
@@ -90,8 +91,8 @@
                     <filter string="checkin company date" domain="[]" context="{'group_by':'checkin_company_date'}"/>
                     <filter string="checkin hotel date" domain="[]" context="{'group_by':'checkin_hotel_date'}"/>
                     <filter string="hotel receptionist " domain="[]" context="{'group_by':'hotel_receptionist '}"/>
-                    <filter string="meal card no." domain="[]" context="{'group_by':'meal_card_no'}"/>
-                    <filter string="meal card status" domain="[]" context="{'group_by':'meal_card_status'}"/>
+                    <filter string="working card no." domain="[]" context="{'group_by':'meal_card_no'}"/>
+                    <filter string="working card status" domain="[]" context="{'group_by':'meal_card_status'}"/>
                     <filter string="pledge money state" domain="[]" context="{'group_by':'pledge_money_state'}"/>
                     <filter string="hotel checkout date" domain="[]" context="{'group_by':'hotel_checkout_date'}"/>
                     <filter string="resignation date" domain="[]" context="{'group_by':'resignation_date'}"/>

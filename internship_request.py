@@ -20,6 +20,7 @@
 #/#############################################################################
 from osv import osv, fields
 from openerp.addons.workflow_china import workflow_func
+from openerp.tools.translate import _
 
 class internship_request(osv.osv):
     _name = 'internship.request'
@@ -29,7 +30,7 @@ class internship_request(osv.osv):
                                      ('draft','draft'),
                                      ('director_audit','director approval'),
                                      ('hr','HR approval'),
-                                     ('meal_card','meal card info'),
+                                     ('meal_card','working card info'),
                                      ('accepted','accepted'),
                                      ('to_resign','to resign'),
                                      ('manager_appr','manager approval'),
@@ -47,8 +48,9 @@ class internship_request(osv.osv):
         'checkin_hotel_date': fields.date(string='checkin hotel date',  required=False),
         'hotel_receptionist': fields.char(size=64, string='hotel receptionist ', required=False, help="hotel receptionist "),
         'arrival_notice': fields.binary(string='arrival notice',  required=False),
-        'meal_card_no': fields.char(size=32, string='meal card no.', required=False, help="meal card number"),
-        'meal_card_status': fields.selection([('dispatched','dispatched'),('reserved','reserved'),('returned','returned')], string='meal card status',  required=False),
+        'meal_card_no': fields.char(size=32, string='working card no.', required=False, help="meal card number"),
+        'meal_card_memo': fields.char(size=256, string='working card memo.', required=False, help="meal card memo"),
+        'meal_card_status': fields.selection([('dispatched','dispatched'),('reserved','reserved'),('returned','returned')], string='working card status',  required=False),
         'pledge_money_state': fields.selection([('payed','payed'),('returned','returned')], string='pledge money state',  required=False),
         'hotel_checkout_date': fields.date(string='hotel checkout date',  required=False),
         'resignation_date': fields.date(string='resignation date',  required=False),
@@ -61,6 +63,29 @@ class internship_request(osv.osv):
         'state':'draft',
 
     }
+
+    def create(self, cr, uid, vals, context={}):
+        """
+        当一个实习生进入到草稿-已离院状态间，用户不能再创建新的实习申请记录
+        """
+        if vals.get('internship',False):
+            ids = self.search(cr, uid, [('internship','=',vals.get('internship',-1)),('state','not in',('draft','stoped','resigned'))], context =context)
+            if ids:
+                raise osv.except_osv(_('Fobbidden!'),
+                                     _('This intern has another request which is under audditting!.'))
+
+        return super(internship_request,self).create(cr,uid,vals,context=context)
+
+    def unlink(self, cr, uid, ids, context={}):
+        """
+        限制删除在跑的单据
+        """
+        for req in self.browse(cr,uid,ids,context=context):
+            if req.state not in ('draft','stoped'):
+                raise osv.except_osv(_('Fobbidden!'),
+                                     _('Records that are not in draf status could not be deleted!'))
+
+        return super(internship_request,self).unlink(cr,uid,ids,context=context)
 
 internship_request()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
