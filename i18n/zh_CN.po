@@ -350,3 +350,23 @@ msgstr "是"
 #: selection:internship.request,diet_record_needed:0
 msgid "no"
 msgstr "否"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "print checkin notification"
+msgstr "打印入住通知书"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "print checkout notification"
+msgstr "打印退房通知"
+
+#. module: up_internship
+#: model:ir.actions.report.xml,name:up_internship.report_checkin
+msgid "Checkin report"
+msgstr "入住通知书"
+
+#. module: up_internship
+#: model:ir.actions.report.xml,name:up_internship.report_checkout
+msgid "Checkout report"
+msgstr "退房通知"

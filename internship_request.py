@@ -25,6 +25,37 @@ from openerp.tools.translate import _
 class internship_request(osv.osv):
     _name = 'internship.request'
 
+    def _data_get(self, cr, uid, ids, name, arg, context=None):
+        if context is None:
+            context = {}
+        result = {}
+        location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
+        bin_size = context.get('bin_size')
+        for attach in self.browse(cr, uid, ids, context=context):
+            if location and attach.store_fname:
+                result[attach.id] = self._file_read(cr, uid, location, attach.store_fname, bin_size)
+            else:
+                result[attach.id] = attach.diet_record_db_datas
+        return result
+
+    def _data_set(self, cr, uid, id, name, value, arg, context=None):
+        # We dont handle setting data to null
+        if not value:
+            return True
+        if context is None:
+            context = {}
+        location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
+        file_size = len(value.decode('base64'))
+        if location:
+            attach = self.browse(cr, uid, id, context=context)
+            if attach.store_fname:
+                self._file_delete(cr, uid, location, attach.store_fname)
+            fname = self._file_write(cr, uid, location, value)
+            super(internship_request, self).write(cr, uid, [id], {'diet_record_store_fname': fname, 'diet_record_file_size': file_size}, context=context)
+        else:
+            super(internship_request, self).write(cr, uid, [id], {'diet_record_db_datas': value, 'diet_record_file_size': file_size}, context=context)
+        return True
+
     _columns = {
         'state':fields.selection([
                                      ('draft','draft'),
@@ -55,7 +86,10 @@ class internship_request(osv.osv):
         'hotel_checkout_date': fields.date(string='hotel checkout date',  required=False),
         'resignation_date': fields.date(string='resignation date',  required=False),
         'diet_record_needed':fields.selection([('yes','yes'),('no','no')],string='diet records required'),
-        'diet_record': fields.binary(string='diet record',  required=False),
+        'diet_record': fields.function(_data_get, fnct_inv=_data_set, string='diet record', type="binary", nodrop=True),
+        'diet_record_fname': fields.char('Stored Filename', size=256),
+        'diet_record_db_datas': fields.binary('Database Data'),
+        'diet_record_file_size': fields.integer('File Size'),
         'internship': fields.many2one('hr.member', string='internship',  required=True),
         'audditing_logs':fields.function(workflow_func._get_workflow_logs, string='auditting logs', type='one2many', relation="workflow.logs",readonly=True),
         }

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-#/#############################################################################
+##############################################################################
 #
-#    Your Company
-#    Copyright (C) 2004-TODAY Your Company(www.yourcompany.com).
+#    OpenERP, Open Source Management Solution
+#    Copyright (C) 2004-2010 Tiny SPRL (<http://tiny.be>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,9 +17,21 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-#/#############################################################################
-import internship_request
-import report
+##############################################################################
 
+import time
+
+from openerp.report import report_sxw
+
+class checkout_report(report_sxw.rml_parse):
+    def __init__(self, cr, uid, name, context=None):
+        super(checkout_report, self).__init__(cr, uid, name, context=context)
+        self.localcontext.update({
+            'time': time.strftime( '%Y/%m/%d %H:%M', time.localtime( time.time() ) ),
+        })
+
+
+report_sxw.report_sxw('report.intern.checkout', 'internship.request', 'addons/up_internship/report/checkout.rml', parser=checkout_report, header="external")
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
