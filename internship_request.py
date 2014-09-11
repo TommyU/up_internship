@@ -32,7 +32,7 @@ class internship_request(osv.osv):
         location = self.pool.get('ir.config_parameter').get_param(cr, uid, 'ir_attachment.location')
         bin_size = context.get('bin_size')
         for attach in self.browse(cr, uid, ids, context=context):
-            if location and attach.store_fname:
+            if location and attach.diet_record_fname:
                 result[attach.id] = self._file_read(cr, uid, location, attach.store_fname, bin_size)
             else:
                 result[attach.id] = attach.diet_record_db_datas
