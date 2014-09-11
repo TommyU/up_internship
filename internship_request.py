@@ -33,7 +33,7 @@ class internship_request(osv.osv):
         bin_size = context.get('bin_size')
         for attach in self.browse(cr, uid, ids, context=context):
             if location and attach.diet_record_fname:
-                result[attach.id] = self._file_read(cr, uid, location, attach.store_fname, bin_size)
+                result[attach.id] = self._file_read(cr, uid, location, attach.diet_record_fname, bin_size)
             else:
                 result[attach.id] = attach.diet_record_db_datas
         return result
@@ -48,10 +48,10 @@ class internship_request(osv.osv):
         file_size = len(value.decode('base64'))
         if location:
             attach = self.browse(cr, uid, id, context=context)
-            if attach.store_fname:
-                self._file_delete(cr, uid, location, attach.store_fname)
+            if attach.diet_record_fname:
+                self._file_delete(cr, uid, location, attach.diet_record_fname)
             fname = self._file_write(cr, uid, location, value)
-            super(internship_request, self).write(cr, uid, [id], {'diet_record_store_fname': fname, 'diet_record_file_size': file_size}, context=context)
+            super(internship_request, self).write(cr, uid, [id], {'diet_record_fname': fname, 'diet_record_file_size': file_size}, context=context)
         else:
             super(internship_request, self).write(cr, uid, [id], {'diet_record_db_datas': value, 'diet_record_file_size': file_size}, context=context)
         return True
