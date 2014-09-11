@@ -21,9 +21,87 @@
 from osv import osv, fields
 from openerp.addons.workflow_china import workflow_func
 from openerp.tools.translate import _
-
+from openerp import tools
+import hashlib
+import itertools
+import logging
+import os
+import re
+_logger = logging.getLogger(__name__)
 class internship_request(osv.osv):
     _name = 'internship.request'
+
+    def _name_get_resname(self, cr, uid, ids, object, method, context):
+        data = {}
+        for attachment in self.browse(cr, uid, ids, context=context):
+            model_object = attachment.res_model
+            res_id = attachment.res_id
+            if model_object and res_id:
+                model_pool = self.pool.get(model_object)
+                res = model_pool.name_get(cr,uid,[res_id],context)
+                res_name = res and res[0][1] or False
+                if res_name:
+                    field = self._columns.get('res_name',False)
+                    if field and len(res_name) > field.size:
+                        res_name = res_name[:field.size-3] + '...'
+                data[attachment.id] = res_name
+            else:
+                data[attachment.id] = False
+        return data
+
+    # 'data' field implementation
+    def _full_path(self, cr, uid, location, path):
+        # location = 'file:filestore'
+        assert location.startswith('file:'), "Unhandled filestore location %s" % location
+        location = location[5:]
+
+        # sanitize location name and path
+        location = re.sub('[.]','',location)
+        location = location.strip('/\\')
+
+        path = re.sub('[.]','',path)
+        path = path.strip('/\\')
+        return os.path.join(tools.config['root_path'], location, cr.dbname, path)
+
+    def _file_read(self, cr, uid, location, fname, bin_size=False):
+        full_path = self._full_path(cr, uid, location, fname)
+        r = ''
+        try:
+            if bin_size:
+                r = os.path.getsize(full_path)
+            else:
+                r = open(full_path,'rb').read().encode('base64')
+        except IOError:
+            _logger.error("_read_file reading %s",full_path)
+        return r
+
+    def _file_write(self, cr, uid, location, value):
+        bin_value = value.decode('base64')
+        fname = hashlib.sha1(bin_value).hexdigest()
+        # scatter files across 1024 dirs
+        # we use '/' in the db (even on windows)
+        fname = fname[:3] + '/' + fname
+        full_path = self._full_path(cr, uid, location, fname)
+        try:
+            dirname = os.path.dirname(full_path)
+            if not os.path.isdir(dirname):
+                os.makedirs(dirname)
+            open(full_path,'wb').write(bin_value)
+        except IOError:
+            _logger.error("_file_write writing %s",full_path)
+        return fname
+
+    def _file_delete(self, cr, uid, location, fname):
+        count = self.search(cr, 1, [('diet_record_fname','=',fname)], count=True)
+        if count <= 1:
+            full_path = self._full_path(cr, uid, location, fname)
+            try:
+                os.unlink(full_path)
+            except OSError:
+                _logger.error("_file_delete could not unlink %s",full_path)
+            except IOError:
+                # Harmless and needed for race conditions
+                _logger.error("_file_delete could not unlink %s",full_path)
 
     def _data_get(self, cr, uid, ids, name, arg, context=None):
         if context is None:
@@ -87,6 +165,7 @@ class internship_request(osv.osv):
         'resignation_date': fields.date(string='resignation date',  required=False),
         'diet_record_needed':fields.selection([('yes','yes'),('no','no')],string='diet records required'),
         'diet_record': fields.function(_data_get, fnct_inv=_data_set, string='diet record', type="binary", nodrop=True),
+        'diet_record_name': fields.char('File Name',size=256),
         'diet_record_fname': fields.char('Stored Filename', size=256),
         'diet_record_db_datas': fields.binary('Database Data'),
         'diet_record_file_size': fields.integer('File Size'),
