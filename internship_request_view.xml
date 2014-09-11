@@ -178,5 +178,16 @@
         <menuitem name="intership management" id="menu_internship_request" sequence="10"
                   parent="up_recuitment.menu_recruitment_root" action="act_open_internship_request_view"/>
 
+        <record model="ir.actions.act_window" id="act_open_internship_request_view2">
+            <field name="name">Internship Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internship.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="search_view_id" ref="view_internship_request_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'default_internship':active_id}</field>
+        </record>
+
     </data>
 </openerp>

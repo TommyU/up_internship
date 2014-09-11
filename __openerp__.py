@@ -34,6 +34,7 @@
     'update_xml': [
         'internship_request_view.xml',
         'internship_request_wkf.xml',
+        'recruitment.xml',
         'security/ir.model.access.csv',
     ],
     'demo_xml': [],
