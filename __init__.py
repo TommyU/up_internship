@@ -21,6 +21,7 @@
 import internship_request
 import report
 import recruitment
+import hotel_receptionist
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

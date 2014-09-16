@@ -7,8 +7,6 @@
             <field name="inherit_id" ref="up_recuitment.view_recuitment_manage_form"/>
             <field name="arch" type="xml">
                 <sheet position="inside">
-                    <button attrs="{'invisible':[('interning','=',True)]}" type="action" string="发起实习流程" name="%(up_internship.act_open_internship_request_view2)d" value="发起实习流程"/>
-                    <field name="interning" invisible="1"/>
                     <notebook >
                         <page string="实习记录">
                             <field name="internships" nolabel="1" colspan ="4">
@@ -25,5 +23,18 @@
                 </sheet>
             </field>
         </record>
+
+        <record id="recruitment_internships_view2" model="ir.ui.view">
+            <field name="name">hr.member.form</field>
+            <field name="model">hr.member</field>
+            <field name="inherit_id" ref="up_recuitment.view_recuitment_manage_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="before">
+                    <button class="oe_highlight" attrs="{'invisible':[('interning','=',True)]}" type="action" string="申请接收该实习生" name="%(up_internship.act_open_internship_request_view2)d" value="发起实习流程"/>
+                    <field name="interning" invisible="1"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>

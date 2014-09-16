@@ -73,7 +73,7 @@
           <para style="P4">
             <font color="white"> </font>
           </para>
-          <para style="P3"><font face="Helvetica"/><pre fontName="SimHei">                </pre><pre fontName="SimHei">                </pre><pre fontName="SimHei">                </pre><pre fontName="SimHei">                </pre>我单位 <font face="Helvetica">[[o.internship.name]] </font>同志，<font face="Helvetica">于</font><font face="Helvetica">[[o.hotel_checkout_date]] </font><font face="Helvetica">日</font><font face="Helvetica"> 下午2点前</font><font face="Helvetica">退房</font>，请予以 办理<font face="Helvetica">退房</font>手续。 </para>
+          <para style="P3"><font face="Helvetica"/><pre fontName="SimHei">                </pre><pre fontName="SimHei">                </pre><pre fontName="SimHei">                </pre><pre fontName="SimHei">                </pre>我单位 <font face="Helvetica">[[o.internship.name]] </font>同志，<font face="Helvetica">于</font><font face="Helvetica">[[o.hotel_checkout_date]] </font><font face="Helvetica">日</font><font face="Helvetica"> 下午[[o.hotel_checkout_hour]]点前</font><font face="Helvetica">退房</font>，请予以 办理<font face="Helvetica">退房</font>手续。 </para>
           <para style="P3">
             <font color="white"> </font>
           </para>

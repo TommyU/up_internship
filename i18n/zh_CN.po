@@ -130,7 +130,12 @@ msgstr "状态"
 #. module: up_internship
 #: selection:internship.request,state:0
 msgid "draft"
-msgstr "草稿"
+msgstr "提出申请"
+
+#. module: up_internship
+#: selection:internship.request,state:0
+msgid "new"
+msgstr "提出申请"
 
 #. module: up_internship
 #: view:internship.request:0
@@ -370,3 +375,65 @@ msgstr "入住通知书"
 #: model:ir.actions.report.xml,name:up_internship.report_checkout
 msgid "Checkout report"
 msgstr "退房通知"
+
+#. module: up_internship
+#: field:internship.request,hotel_checkout_hour:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_hotel_checkout_hour
+msgid "hotel checkout hour"
+msgstr "退房时间"
+
+#. module: up_internship
+#: selection:internship.request,hotel_checkout_hour:0
+msgid "2:00 PM"
+msgstr "下午2点"
+
+#. module: up_internship
+#: selection:internship.request,hotel_checkout_hour:0
+msgid "6:00 PM"
+msgstr "下午6点"
+
+#. module: up_internship
+#: field:internship.hotel.receptionist,name:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_hotel_receptionist_name
+msgid "name"
+msgstr "姓名"
+
+#. module: up_internship
+#: help:internship.hotel.receptionist,phone:0
+msgid "phone number of the receptionist"
+msgstr "接收人的电话"
+
+#. module: up_internship
+#: help:internship.hotel.receptionist,name:0
+msgid "name of the receptionist"
+msgstr "接收人的姓名"
+
+#. module: up_internship
+#: field:internship.hotel.receptionist,phone:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_hotel_receptionist_phone
+msgid "phone"
+msgstr "电话"
+
+#. module: up_internship
+#: view:internship.hotel.receptionist:0
+msgid "Receptionist"
+msgstr "接收人"
+
+#. module: up_internship
+#: model:ir.actions.act_window,name:up_internship.act_open_internship_hotel_receptionist_view
+msgid "Hotel receptionist"
+msgstr "(迪富)酒店接收人"
+
+#. module: up_internship
+#: view:internship.hotel.receptionist:0
+#: model:ir.ui.menu,name:up_internship.menu_internship_hotel_receptionist
+msgid "hotel receptionist"
+msgstr "(迪富)酒店接收人"
+
+#. module: up_internship
+#: view:internship.request:0
+#: field:internship.request,hotel_receptionist:0
+#: help:internship.request,hotel_receptionist:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_hotel_receptionist
+msgid "hotel receptionist "
+msgstr "(迪富)酒店接收人"

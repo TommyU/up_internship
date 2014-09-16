@@ -136,13 +136,13 @@ class internship_request(osv.osv):
 
     _columns = {
         'state':fields.selection([
-                                     ('draft','draft'),
+                                     ('new','new'),
                                      ('director_audit','director approval'),
                                      ('hr','HR approval'),
                                      ('meal_card','working card info'),
-                                     ('accepted','accepted'),
-                                     ('to_resign','to resign'),
-                                     ('manager_appr','manager approval'),
+                                     ('accepted',u'实习中'),
+                                     ('to_resign',u'离院审批'),
+                                     ('manager_appr',u'工作卡退回'),
                                      ('diet_record','diet records upload'),
                                      ('director_appr','director approval'),
                                      ('checking_out','checking out'),
@@ -155,13 +155,15 @@ class internship_request(osv.osv):
         'end_date': fields.date(string='end date',  required=True),
         'checkin_company_date': fields.date(string='checkin company date',  required=False),
         'checkin_hotel_date': fields.date(string='checkin hotel date',  required=False),
-        'hotel_receptionist': fields.char(size=64, string='hotel receptionist ', required=False, help="hotel receptionist "),
+        #'hotel_receptionist': fields.char(size=64, string='hotel receptionist ', required=False, help="hotel receptionist "),
+        'hotel_receptionist': fields.many2one('internship.hotel.receptionist', string='hotel receptionist ', required=False, help="hotel receptionist "),
         'arrival_notice': fields.binary(string='arrival notice',  required=False),
         'meal_card_no': fields.char(size=32, string='working card no.', required=False, help="meal card number"),
         'meal_card_memo': fields.char(size=256, string='working card memo.', required=False, help="meal card memo"),
         'meal_card_status': fields.selection([('dispatched','dispatched'),('reserved','reserved'),('returned','returned')], string='working card status',  required=False),
         'pledge_money_state': fields.selection([('payed','payed'),('returned','returned')], string='pledge money state',  required=False),
         'hotel_checkout_date': fields.date(string='hotel checkout date',  required=False),
+        'hotel_checkout_hour': fields.selection([('2','2:00 PM'),('6','6:00 PM')],string='hotel checkout hour',  required=False),
         'resignation_date': fields.date(string='resignation date',  required=False),
         'diet_record_needed':fields.selection([('yes','yes'),('no','no')],string='diet records required'),
         'diet_record': fields.function(_data_get, fnct_inv=_data_set, string='diet record', type="binary", nodrop=True),
@@ -174,7 +176,7 @@ class internship_request(osv.osv):
         }
 
     _defaults={
-        'state':'draft',
+        'state':'new',
 
     }
 

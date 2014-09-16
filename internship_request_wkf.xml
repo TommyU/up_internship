@@ -78,8 +78,8 @@
             <field name="wkf_id" ref="wkf_internship_request"/>
             <field name="flow_start">True</field>
             <field name="kind">function</field>
-            <field name="action">write({'state':'draft'})</field>
-            <field name="name">draft</field>
+            <field name="action">write({'state':'new'})</field>
+            <field name="name">new</field>
         </record>
         <record id="internship_request_trans_draft_2_director_audit" model="workflow.transition">
             <field name="act_from" ref="internship_request_act_draft"/>

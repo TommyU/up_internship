@@ -18,32 +18,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #/#############################################################################
-{
-    'name': 'up_internship',
-    'version': '1.0',
-    'category': '',
-    "sequence": 20,
-    'complexity': "easy",
-    'description': """
-    """,
-    'author': 'Tommy.Yu',
-    'website': 'www.odoo.com',
-    'images': [],
-    'depends': ['hr','up_recuitment','workflow_china'],
-    'init_xml': [],
-    'update_xml': [
-        'internship_request_view.xml',
-        'internship_hotel_receptionist_view.xml',
-        'internship_request_wkf.xml',
-        'recruitment.xml',
-        'security/ir.model.access.csv',
-    ],
-    'demo_xml': [],
-    'test': [
+from openerp.osv import osv, fields
 
-    ],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-}
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+
+class internship_hotel_receptionist(osv.Model):
+    _name='internship.hotel.receptionist'
+
+    _columns = {
+        'name':fields.char(size=32, string='name', required=True, help="name of the receptionist"),
+        'phone': fields.char(size=32, string='phone', required=False, help="phone number of the receptionist"),
+    }
+
+    def name_get(self, cr, uid, ids, context=None):
+        if isinstance(ids, (list, tuple)) and not len(ids):
+            return []
+        if isinstance(ids, (long, int)):
+            ids = [ids]
+        reads = self.read(cr, uid, ids, ['name','phone'], context=context)
+        res = []
+        for record in reads:
+            name = record['name']
+            if record['phone']:
+                name = name+' - '+record['phone']
+            res.append((record['id'], name))
+        return res
+
+internship_hotel_receptionist()

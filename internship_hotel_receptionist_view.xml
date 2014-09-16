@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_internship_hotel_receptionist_tree" model="ir.ui.view">
+            <field name="name">internship.hotel.receptionist.tree</field>
+            <field name="model">internship.hotel.receptionist</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Receptionist">
+                    <field name="name"/>
+                    <field name="phone"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_internship_hotel_receptionist_form" model="ir.ui.view">
+            <field name="name">internship.hotel.receptionist.form</field>
+            <field name="model">internship.hotel.receptionist</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="hotel receptionist" version="7.0">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="phone"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_internship_hotel_receptionist_search" model="ir.ui.view">
+            <field name="name">internship.hotel.receptionist.search</field>
+            <field name="model">internship.hotel.receptionist</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="hotel receptionist">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_internship_hotel_receptionist_view">
+            <field name="name">Hotel receptionist</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internship.hotel.receptionist</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_internship_hotel_receptionist_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <menuitem name="hotel receptionist" id="menu_internship_hotel_receptionist" sequence="12"
+                  parent="up_recuitment.menu_recruitment_root" action="act_open_internship_hotel_receptionist_view"/>
+
+
+    </data>
+</openerp>

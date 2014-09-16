@@ -44,7 +44,7 @@ class recruitment_interships(osv.Model):
         model_obj = self.pool.get(model)
         internship_obj = self.pool.get('internship.request')
         for ms in model_obj.browse(cr,uid,ids,context=context):
-            res[ms.id]= bool(internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('draft','stoped'))]))
+            res[ms.id]= bool(internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('draft','stoped','resigned'))]))
         return res
 
     _columns = {
