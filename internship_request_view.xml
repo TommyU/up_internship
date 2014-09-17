@@ -92,16 +92,18 @@
                                 </page>
                                 <page string="acceptance" states="hr,meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                     <group>
-                                        <group><field name="checkin_company_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                        <group>
+                                            <field name="checkin_company_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
                                             <field name="checkin_hotel_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
                                         </group>
-                                        <group><field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
-                                            <field name="hotel_receptionist_tel" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                        <group>
+                                            <field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                            <field name="hotel_receptionist_tel" attrs="{'readonly':[('state','not in',('hr',))]}"/>
                                         </group>
 
                                     </group>
                                     <group>
-                                        <field widget="text" name="hotel_reception_message" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                        <field widget="text" name="hotel_reception_message" attrs="{'readonly':[('state','not in',('hr',))]}"/>
                                         <field name="arrival_notice" attrs="{'readonly':[('state','not in',('hr',))]}" invisible="1"/>
                                     </group>
                                     <button type="object" confirm = "Are you sure to send the message?" name="notify_receptionist" string="send message"/>
