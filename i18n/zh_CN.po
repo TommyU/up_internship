@@ -471,3 +471,15 @@ msgstr "待接收"
 #: model:ir.model.fields,field_description:up_internship.field_hr_member_intern_status
 msgid "intern status"
 msgstr "实习状态"
+
+#. module: up_internship
+#: field:internship.request,hotel_receptionist_tel:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_hotel_receptionist_tel
+msgid "receptionist phone"
+msgstr "接收人电话"
+
+#. module: up_internship
+#: field:internship.request,hotel_reception_message:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_hotel_reception_message
+msgid "reception message"
+msgstr "短信消息"
