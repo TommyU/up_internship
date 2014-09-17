@@ -222,7 +222,26 @@ class internship_request(osv.osv):
         return {'value':{'start_date':mem.start_date,'end_date':mem.end_date}}
 
     def notify_receptionist(self, cr, uid, ids, context={}):
-        pass
+        try:
+            request  = self.browse(cr, uid, ids[0], context)
+            sms_obj = self.pool.get('sms.sms')
+            class usr(object):
+                def __init__(self,mobile_phone=False):
+                    self.mobile_phone = mobile_phone
+            users = [usr(request.hotel_receptionist_tel),]
+            if sms_obj:
+                sms_obj.send_sms_to_users(
+                    cr,
+                    uid,
+                    users,  # 接受用户    这里请使用 browse()方式得到的结果， 不要使用 id值
+                    u'实习管理流程', #发送信息的表名 这里其实是一个标示，名字可以中文，能说清这个信息是从哪里发出的就行，例如 ：实习生--张XX短信
+                    request.hotel_reception_message,  #短信正文
+                    'internship.request', #来自模块   如果是hr.member 发出，这里就填 hr.member
+                    ids[0], #来自ID
+                    context=context
+                )
+        except Exception,ex:
+            pass
 
 
 internship_request()
