@@ -221,6 +221,9 @@ class internship_request(osv.osv):
         mem = self.pool.get('hr.member').browse(cr,uid,internship_id,context )
         return {'value':{'start_date':mem.start_date,'end_date':mem.end_date}}
 
+    def notify_receptionist(self, cr, uid, ids, context={}):
+        pass
+
 
 internship_request()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
