@@ -48,6 +48,7 @@ msgid "Internship Request"
 msgstr "实习申请"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "director approval"
 msgstr "所长审批"
@@ -81,11 +82,13 @@ msgid "Group By..."
 msgstr "分组按照..."
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "stoped"
 msgstr "中止"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "manager approval"
 msgstr "部长审批"
@@ -107,6 +110,12 @@ msgid "payed"
 msgstr "已支付"
 
 #. module: up_internship
+#: selection:internship.request,pledge_money_state:0
+msgid "unpayed"
+msgstr "未支付"
+
+#. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "resigned"
 msgstr "已离院"
@@ -128,11 +137,13 @@ msgid "state"
 msgstr "状态"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "draft"
 msgstr "提出申请"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "new"
 msgstr "提出申请"
@@ -145,6 +156,7 @@ msgid "preset instructor"
 msgstr "拟定指导员"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "HR approval"
 msgstr "人事审核"
@@ -157,6 +169,7 @@ msgid "start date"
 msgstr "实习开始日期"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "diet records upload"
 msgstr "用餐记录上传"
@@ -167,6 +180,7 @@ msgid "intership management"
 msgstr "实习管理"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "to resign"
 msgstr "离院申请"
@@ -207,6 +221,7 @@ msgid "working card"
 msgstr "工卡"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "accepted"
 msgstr "已入院"
@@ -244,6 +259,7 @@ msgid "Preset dept."
 msgstr "拟定部门"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "checking out"
 msgstr "退房登记"
@@ -254,11 +270,13 @@ msgid "internship.request"
 msgstr "实习生管理"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "meal card info"
 msgstr "饭卡信息录入"
 
 #. module: up_internship
+#: selection:hr.member,intern_status:0
 #: selection:internship.request,state:0
 msgid "working card info"
 msgstr "工作卡管理"
@@ -437,3 +455,19 @@ msgstr "(迪富)酒店接收人"
 #: model:ir.model.fields,field_description:up_internship.field_internship_request_hotel_receptionist
 msgid "hotel receptionist "
 msgstr "(迪富)酒店接收人"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "send message"
+msgstr "发送短信"
+
+#. module: up_internship
+#: selection:hr.member,intern_status:0
+msgid "none"
+msgstr "待接收"
+
+#. module: up_internship
+#: field:hr.member,intern_status:0
+#: model:ir.model.fields,field_description:up_internship.field_hr_member_intern_status
+msgid "intern status"
+msgstr "实习状态"

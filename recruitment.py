@@ -47,9 +47,60 @@ class recruitment_interships(osv.Model):
             res[ms.id]= bool(internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('draft','stoped','resigned'))]))
         return res
 
+    def _status(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        model = self._name
+        if not model:
+            return {}
+        model_obj = self.pool.get(model)
+        internship_obj = self.pool.get('internship.request')
+        for ms in model_obj.browse(cr,uid,ids,context=context):
+            in_ids = internship_obj.search(cr,uid,[('internship','=',ms.id)])#,('state','not in',('draft','stoped','resigned'))
+            if in_ids:
+                res[ms.id] = internship_obj.browse(cr, uid, in_ids[-1], context).state
+            else:
+                res[ms.id] ='none'
+        return res
+
+    def _internCD(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        model = self._name
+        if not model:
+            return {}
+        model_obj = self.pool.get(model)
+        internship_obj = self.pool.get('internship.request')
+        for ms in model_obj.browse(cr,uid,ids,context=context):
+            in_ids = internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('stoped','resigned'))])
+            if in_ids:
+                d = internship_obj.browse(cr, uid, in_ids[-1], context).c_date
+                if d:
+                    res[ms.id] = d
+                else:
+                    res[ms.id]=False
+            else:
+                res[ms.id]=False
+        return res
+
     _columns = {
         'interning':fields.function(_interning, string='interning', type='boolean',readonly=True),
         'internships': fields.function(_get_internships, string='internships', type='one2many', relation="internship.request",readonly=True),
+        'intern_status':fields.function(_status, string='intern status', type='selection',readonly=True,
+                                 selection=[
+                                     ('none','none'),
+                                     ('new','new'),
+                                     ('director_audit','director approval'),
+                                     ('hr','HR approval'),
+                                     ('meal_card','working card info'),
+                                     ('accepted',u'实习中'),
+                                     ('to_resign',u'离院审批'),
+                                     ('manager_appr',u'工作卡退回'),
+                                     ('diet_record','diet records upload'),
+                                     ('director_appr','director approval'),
+                                     ('checking_out','checking out'),
+                                     ('resigned','resigned'),
+                                     ('stoped','stoped'),
+                                 ]),
+        'intern_create_date':fields.function(_internCD, string='intern starting date', type='date',readonly=True),
     }
 
 recruitment_interships()

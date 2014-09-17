@@ -23,24 +23,25 @@ from openerp.osv import osv, fields
 
 class internship_hotel_receptionist(osv.Model):
     _name='internship.hotel.receptionist'
-
+    _rec_name='name'
     _columns = {
         'name':fields.char(size=32, string='name', required=True, help="name of the receptionist"),
         'phone': fields.char(size=32, string='phone', required=False, help="phone number of the receptionist"),
+        'msg':fields.char(size=32, string='message', required=False, help="messages to be sent to the receptionist"),
     }
 
-    def name_get(self, cr, uid, ids, context=None):
-        if isinstance(ids, (list, tuple)) and not len(ids):
-            return []
-        if isinstance(ids, (long, int)):
-            ids = [ids]
-        reads = self.read(cr, uid, ids, ['name','phone'], context=context)
-        res = []
-        for record in reads:
-            name = record['name']
-            if record['phone']:
-                name = name+' - '+record['phone']
-            res.append((record['id'], name))
-        return res
+    # def name_get(self, cr, uid, ids, context=None):
+    #     if isinstance(ids, (list, tuple)) and not len(ids):
+    #         return []
+    #     if isinstance(ids, (long, int)):
+    #         ids = [ids]
+    #     reads = self.read(cr, uid, ids, ['name','phone'], context=context)
+    #     res = []
+    #     for record in reads:
+    #         name = record['name']
+    #         if record['phone']:
+    #             name = name+' - '+record['phone']
+    #         res.append((record['id'], name))
+    #     return res
 
 internship_hotel_receptionist()

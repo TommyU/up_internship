@@ -78,7 +78,8 @@
                         <field name="state" widget="statusbar" statusbar_visible="new,director_audit,hr,meal_card,accepted,to_resign,resigned"/>
                     </header>
                     <sheet>
-                        <group><field name="internship" attrs="{'readonly':[('state','not in',('new',))]}"/></group>
+                        <field name="c_date" invisible="1"/>
+                        <group><field name="internship" on_change="onchange_internship(internship)" attrs="{'readonly':[('state','not in',('new',))]}"/></group>
                         <group>
                             <notebook>
                                 <page string="application">
@@ -91,18 +92,27 @@
                                 </page>
                                 <page string="acceptance" states="hr,meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                     <group>
-                                        <field name="checkin_company_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
-                                        <field name="checkin_hotel_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
-                                        <field name="hotel_receptionist" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                        <group><field name="checkin_company_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                            <field name="checkin_hotel_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                        </group>
+                                        <group><field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                            <field name="hotel_receptionist_tel" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                        </group>
+
+                                    </group>
+                                    <group>
+                                        <field widget="text" name="hotel_reception_message" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
                                         <field name="arrival_notice" attrs="{'readonly':[('state','not in',('hr',))]}" invisible="1"/>
                                     </group>
+                                    <button type="object" confirm = "Are you sure to send the message?" name="notify_receptionist" string="send message"/>
+
                                 </page>
                                 <page string="working card" states="meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                     <group>
                                         <field name="meal_card_no"  attrs="{'readonly':[('state','not in',('meal_card',))]}"/>
                                         <field name="meal_card_status"  attrs="{'readonly':[('state','not in',('meal_card','manager_appr'))],'required':[('state','in',('meal_card','manager_appr'))]}"/>
                                         <field name="pledge_money_state"  attrs="{'readonly':[('state','not in',('meal_card','manager_appr'))],'required':[('state','in',('meal_card','manager_appr'))]}"/>
-                                        <field name="meal_card_memo"  attrs="{'readonly':[('state','not in',('meal_card',))]}" widget="text"/>
+                                        <field name="meal_card_memo"  attrs="{'readonly':[('state','not in',('meal_card','manager_appr'))]}" widget="text"/>
                                     </group>
                                 </page>
                                 <page string="resignation" states="accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
@@ -126,6 +136,7 @@
                                             <field name="status" />
                                             <field name="time" />
                                             <field name="info" />
+
                                         </tree>
                                     </field>
                                 </page>

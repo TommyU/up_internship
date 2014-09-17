@@ -36,5 +36,16 @@
             </field>
         </record>
 
+        <record id="recruitment_internships_tree" model="ir.ui.view">
+            <field name="name">hr.member.form</field>
+            <field name="model">hr.member</field>
+            <field name="inherit_id" ref="up_recuitment.view_recuitment_manage_tree"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="intern_status"/>
+                </field>
+            </field>
+        </record>
+
     </data>
 </openerp>

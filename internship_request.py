@@ -157,11 +157,13 @@ class internship_request(osv.osv):
         'checkin_hotel_date': fields.date(string='checkin hotel date',  required=False),
         #'hotel_receptionist': fields.char(size=64, string='hotel receptionist ', required=False, help="hotel receptionist "),
         'hotel_receptionist': fields.many2one('internship.hotel.receptionist', string='hotel receptionist ', required=False, help="hotel receptionist "),
+        'hotel_receptionist_tel': fields.char('receptionist phone',size=32),
+        'hotel_reception_message': fields.char('reception message',size=256),
         'arrival_notice': fields.binary(string='arrival notice',  required=False),
         'meal_card_no': fields.char(size=32, string='working card no.', required=False, help="meal card number"),
         'meal_card_memo': fields.char(size=256, string='working card memo.', required=False, help="meal card memo"),
         'meal_card_status': fields.selection([('dispatched','dispatched'),('reserved','reserved'),('returned','returned')], string='working card status',  required=False),
-        'pledge_money_state': fields.selection([('payed','payed'),('returned','returned')], string='pledge money state',  required=False),
+        'pledge_money_state': fields.selection([('payed','payed'),('returned','returned'),('unpayed','unpayed')], string='pledge money state',  required=False),
         'hotel_checkout_date': fields.date(string='hotel checkout date',  required=False),
         'hotel_checkout_hour': fields.selection([('2','2:00 PM'),('6','6:00 PM')],string='hotel checkout hour',  required=False),
         'resignation_date': fields.date(string='resignation date',  required=False),
@@ -173,11 +175,12 @@ class internship_request(osv.osv):
         'diet_record_file_size': fields.integer('File Size'),
         'internship': fields.many2one('hr.member', string='internship',  required=True),
         'audditing_logs':fields.function(workflow_func._get_workflow_logs, string='auditting logs', type='one2many', relation="workflow.logs",readonly=True),
+        'c_date': fields.date(string='create date',  required=True),
         }
 
     _defaults={
         'state':'new',
-
+        'c_date':fields.date.context_today,
     }
 
     def create(self, cr, uid, vals, context={}):
@@ -202,6 +205,22 @@ class internship_request(osv.osv):
                                      _('Records that are not in draf status could not be deleted!'))
 
         return super(internship_request,self).unlink(cr,uid,ids,context=context)
+
+    def onchange_hotel_receptionist(self, cr, uid, ids,receptionist_id, context={}):
+        if not receptionist_id:
+            return {}
+        re = self.pool.get('internship.hotel.receptionist').browse(cr, uid, receptionist_id, context)
+        return {'value':{
+            'hotel_receptionist_tel':re.phone or '',
+            'hotel_reception_message':re.msg or '',
+        }}
+
+    def onchange_internship(self, cr, uid, ids, internship_id, context={}):
+        if not internship_id:
+            return {}
+        mem = self.pool.get('hr.member').browse(cr,uid,internship_id,context )
+        return {'value':{'start_date':mem.start_date,'end_date':mem.end_date}}
+
 
 internship_request()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
