@@ -106,7 +106,7 @@
                                         <field widget="text" name="hotel_reception_message" attrs="{'readonly':[('state','not in',('hr',))]}"/>
                                         <field name="arrival_notice" attrs="{'readonly':[('state','not in',('hr',))]}" invisible="1"/>
                                     </group>
-                                    <button type="object" confirm = "Are you sure to send the message?" name="notify_receptionist" string="send message"/>
+                                    <button type="object" confirm = "Are you sure to send the message?" name="notify_receptionist" string="send message" attrs="{'invisible':['|',('hotel_receptionist_tel','=',False),('hotel_reception_message','=',False)]}"/>
 
                                 </page>
                                 <page string="working card" states="meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
