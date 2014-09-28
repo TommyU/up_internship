@@ -68,13 +68,13 @@
             <field name="arch" type="xml">
                 <form string="Internship Request" version="7.0">
                     <header>
-                        <button name="submit" type="workflow_submit" string="submit" states="new,"/>
-                        <button name="submit" type="workflow_ok" string="approve" attrs="{'invisible':[('state','in',('new','stoped','resigned','accepted'))]}"/>
+                        <button name="submit" type="workflow_submit" string="submit" states="new," groups="up_internship.group_clerk"/>
+                        <button name="submit_apr" type="workflow_ok" string="approve" attrs="{'invisible':[('state','in',('new','stoped','resigned','accepted'))]}"/>
                         <button name="submit" type="workflow_ok" string="to quit" attrs="{'invisible':[('state','not in',('accepted',))]}"/>
-                        <button name="reject" type="workflow_no" string="reject" states="director_appr,"/>
+                        <button name="reject" type="workflow_no" string="reject" states="director_appr," groups="up_internship.group_director,up_internship.group_related_leaders"/>
                         <button name="cancel" type="workflow_cancel" string="cancel" states="director_audit,hr,"/>
-                        <button name="%(up_internship.report_checkin)d" type="action" string="print checkin notification" attrs="{'invisible':[('state','not in',('hr',))]}"/>
-                        <button name="%(up_internship.report_checkout)d" type="action" string="print checkout notification" attrs="{'invisible':[('state','not in',('checking_out',))]}"/>
+                        <button name="%(up_internship.report_checkin)d" type="action" string="print checkin notification" attrs="{'invisible':[('state','not in',('hr',))]}" groups="up_internship.group_internship_recruiter"/>
+                        <button name="%(up_internship.report_checkout)d" type="action" string="print checkout notification" attrs="{'invisible':[('state','not in',('checking_out',))]}" groups="up_internship.group_internship_instructor"/>
                         <field name="state" widget="statusbar" statusbar_visible="new,director_audit,hr,meal_card,accepted,to_resign,resigned"/>
                     </header>
                     <sheet>
@@ -97,7 +97,7 @@
                                             <field name="checkin_hotel_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
                                         </group>
                                         <group>
-                                            <field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                            <field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" attrs="{'readonly':[('state','not in',('hr',))]}"/>
                                             <field name="hotel_receptionist_tel" attrs="{'readonly':[('state','not in',('hr',))]}"/>
                                         </group>
 

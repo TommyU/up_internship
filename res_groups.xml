@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_res_groups_tree" model="ir.ui.view">
+            <field name="name">res.groups.tree</field>
+            <field name="model">res.groups</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Groups">
+                    <field name="category_id"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--=============== new category=============================== -->
+        <record id="categ_up_internship" model="ir.module.category">
+            <field name="name">internship request</field>
+            <field name="sequence">20</field>
+            <field name="description">internship request</field>
+        </record>
+
+        <!--=============== new groups=============================== -->
+        <!-- dept clerk -->
+        <record id="group_clerk" model="res.groups">
+            <field name="name">clerk</field>
+            <field name="category_id" ref="categ_up_internship"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">the department clerk is in charge of starting the request of internship.</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- dept director -->
+        <record id="group_director" model="res.groups">
+            <field name="name">director</field>
+            <field name="category_id" ref="categ_up_internship"/>
+            <field name="implied_ids" eval="[(4, ref('up_internship.group_clerk'))]"/>
+            <field name="comment">the person who is responsible for approving/rejecting the request of internship.</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- internship recruiter -->
+        <record id="group_internship_recruiter" model="res.groups">
+            <field name="name">internship recruiter</field>
+            <field name="category_id" ref="categ_up_internship"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">the person who is responsible to accept or reject the internship.</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- badge card manager -->
+        <record id="group_badge_card_manager" model="res.groups">
+            <field name="name">badge card manager</field>
+            <field name="category_id" ref="categ_up_internship"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">the person who is responsible to dispatch the badge card to the internship or take it back from the internship.</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- meal fee manager -->
+        <record id="group_meal_fee_manager" model="res.groups">
+            <field name="name">meal fee manager</field>
+            <field name="category_id" ref="categ_up_internship"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">the person who is responsible to upload the meal fee record .</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- internship instructor -->
+        <record id="group_internship_instructor" model="res.groups">
+            <field name="name">internship instructor</field>
+            <field name="category_id" ref="categ_up_internship"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">the person who instructs the internship.</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- section chief -->
+        <record id="group_section_chief" model="res.groups">
+            <field name="name">section chief</field>
+            <field name="category_id" ref="categ_up_internship"/>
+            <field name="implied_ids" eval="[(4, ref('up_internship.group_clerk'))]"/>
+            <field name="comment">section chief whoes responsibility is to approve/reject the resign of the internship.</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!-- related leaders -->
+        <record id="group_related_leaders" model="res.groups">
+            <field name="name">related leaders</field>
+            <field name="category_id" ref="categ_up_internship"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="comment">related leaders.</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+
+        <!--==============buttons auth in form ======================= -->
+        <record id="up_internship_auth" model="ir.ui.view">
+            <field name="name">internship.request.auth.form</field>
+            <field name="model">internship.request</field>
+            <field name="inherit_id" ref="up_internship.view_internship_request_form"/>
+            <field name="arch" type="xml">
+                <button name="submit_apr" position="replace">
+                    <button string="approve" type="workflow_ok" name="submit" states="director_audit," groups="up_internship.group_director"/>
+                    <button string="approve" type="workflow_ok" name="submit" states="hr," groups="up_internship.group_internship_recruiter"/>
+                    <button string="approve" type="workflow_ok" name="submit" states="meal_card,manager_appr" groups="up_internship.group_badge_card_manager"/>
+
+                    <button string="approve" type="workflow_ok" name="submit" states="to_resign," groups="up_internship.group_section_chief"/>
+                    <button string="approve" type="workflow_ok" name="submit" states="diet_record," groups="up_internship.group_meal_fee_manager"/>
+                    <button string="approve" type="workflow_ok" name="submit" states="director_appr," groups="up_internship.group_director,up_internship.group_related_leaders"/>
+                    <button string="approve" type="workflow_ok" name="submit" states="checking_out," groups="up_internship.group_internship_instructor"/>
+                </button>
+                <button name="cancel" position="replace">
+                    <button name="cancel" type="workflow_cancel" string="cancel" states="director_audit," groups="up_internship.group_director"/>
+                    <button name="cancel" type="workflow_cancel" string="cancel" states="hr," groups="up_internship.group_internship_recruiter"/>
+                    <button name="cancel" type="workflow_cancel" string="cancel" states="accepted," groups="up_internship.group_internship_instructor"/>
+                </button>
+            </field>
+        </record>
+
+
+        <!--=============mapping ==================================== -->
+        <record model="workflow.state2group" id="s2g_director_audit">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_director_audit"/>
+            <field name="by_dept" eval="1"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_director'))]"/>
+        </record>
+
+        <record model="workflow.state2group" id="s2g_to_resign">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_to_resign"/>
+            <field name="by_dept" eval="1"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_section_chief'))]"/>
+        </record>
+
+        <record model="workflow.state2group" id="s2g_director_appr">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_director_appr"/>
+            <field name="by_dept" eval="1"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_director')),(4, ref('up_internship.group_related_leaders'))]"/>
+        </record>
+
+        <!--deptless-->
+        <record model="workflow.state2group" id="s2g_hr">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_hr"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_internship_recruiter'))]"/>
+        </record>
+
+        <record model="workflow.state2group" id="s2g_meal_card">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_meal_card"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_badge_card_manager'))]"/>
+        </record>
+
+        <record model="workflow.state2group" id="s2g_manager_appr">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_manager_appr"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_badge_card_manager'))]"/>
+        </record>
+
+        <record model="workflow.state2group" id="s2g_diet_record">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_diet_record"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_meal_fee_manager'))]"/>
+        </record>
+
+        <record model="workflow.state2group" id="s2g_checking_out">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_checking_out"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_internship_instructor'))]"/>
+        </record>
+
+
+
+    </data>
+</openerp>

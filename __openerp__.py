@@ -37,6 +37,7 @@
         'internship_request_wkf.xml',
         'recruitment.xml',
         'security/ir.model.access.csv',
+        'res_groups.xml',
     ],
     'demo_xml': [],
     'test': [

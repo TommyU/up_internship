@@ -488,3 +488,94 @@ msgstr "短信消息"
 #: view:internship.request:0
 msgid "Are you sure to send the message?"
 msgstr "确定给(迪富)酒店接收人发送’短信消息'中的短息么?"
+
+#. module: up_internship
+#: model:ir.module.category,description:up_internship.categ_up_internship
+#: model:ir.module.category,name:up_internship.categ_up_internship
+msgid "internship request"
+msgstr "实习管理"
+
+#. module: up_internship
+#: model:res.groups,name:up_internship.group_meal_fee_manager
+msgid "meal fee manager"
+msgstr "餐费管理员"
+
+#. module: up_internship
+#: model:res.groups,name:up_internship.group_related_leaders
+msgid "related leaders"
+msgstr "相关领导"
+
+#. module: up_internship
+#: model:res.groups,comment:up_internship.group_meal_fee_manager
+msgid "the person who is responsible to upload the meal fee record ."
+msgstr "负责上传用餐记录的人."
+
+#. module: up_internship
+#: model:res.groups,name:up_internship.group_internship_recruiter
+msgid "internship recruiter"
+msgstr "实习生接收办事员"
+
+#. module: up_internship
+#: model:res.groups,comment:up_internship.group_internship_instructor
+msgid "the person who instructs the internship."
+msgstr "实习生指导员."
+
+#. module: up_internship
+#: model:res.groups,name:up_internship.group_clerk
+msgid "clerk"
+msgstr "部门文员"
+
+#. module: up_internship
+#: model:res.groups,comment:up_internship.group_clerk
+msgid "the department clerk is in charge of starting the request of internship."
+msgstr "部门文员负责发起实习管理流程."
+
+#. module: up_internship
+#: model:res.groups,comment:up_internship.group_badge_card_manager
+msgid "the person who is responsible to dispatch the badge card to the internship or take it back from the internship."
+msgstr "负责发放和回收工作卡的人"
+
+#. module: up_internship
+#: help:internship.hotel.receptionist,msg:0
+msgid "messages to be sent to the receptionist"
+msgstr "发给酒店接收人的短讯"
+
+#. module: up_internship
+#: model:res.groups,comment:up_internship.group_section_chief
+msgid "section chief whoes responsibility is to approve/reject the resign of the internship."
+msgstr "科长（所长指定的人员），职责是负责离院申请第一道审批。"
+
+#. module: up_internship
+#: model:res.groups,name:up_internship.group_internship_instructor
+msgid "internship instructor"
+msgstr "实习生指导员"
+
+#. module: up_internship
+#: model:res.groups,comment:up_internship.group_internship_recruiter
+msgid "the person who is responsible to accept or reject the internship."
+msgstr "决定接收、不接收实习生的实习生接收办事员"
+
+#. module: up_internship
+#: model:res.groups,comment:up_internship.group_director
+msgid "the person who is responsible for approving/rejecting the request of internship."
+msgstr "所长，决定通过还是驳回实习申请的人。"
+
+#. module: up_internship
+#: model:res.groups,name:up_internship.group_section_chief
+msgid "section chief"
+msgstr "科长/所长制定的部长"
+
+#. module: up_internship
+#: model:res.groups,name:up_internship.group_director
+msgid "director"
+msgstr "所长"
+
+#. module: up_internship
+#: model:res.groups,comment:up_internship.group_related_leaders
+msgid "related leaders."
+msgstr "相关领导"
+
+#. module: up_internship
+#: model:res.groups,name:up_internship.group_badge_card_manager
+msgid "badge card manager"
+msgstr "工作卡管理员"
