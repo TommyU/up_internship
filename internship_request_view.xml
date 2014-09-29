@@ -68,9 +68,9 @@
             <field name="arch" type="xml">
                 <form string="Internship Request" version="7.0">
                     <header>
-                        <button name="submit" type="workflow_submit" string="submit" states="new," groups="up_internship.group_clerk"/>
+                        <button name="submit" type="workflow_submit" string="submit" states="new," groups="base.group_user"/>
                         <button name="submit_apr" type="workflow_ok" string="approve" attrs="{'invisible':[('state','in',('new','stoped','resigned','accepted'))]}"/>
-                        <button name="submit" type="workflow_ok" string="to quit" attrs="{'invisible':[('state','not in',('accepted',))]}"/>
+                        <button name="submit" type="workflow_ok" string="to quit" groups="up_internship.group_clerk" attrs="{'invisible':[('state','not in',('accepted',))]}"/>
                         <button name="reject" type="workflow_no" string="reject" states="director_appr," groups="up_internship.group_director,up_internship.group_related_leaders"/>
                         <button name="cancel" type="workflow_cancel" string="cancel" states="director_audit,hr,"/>
                         <button name="%(up_internship.report_checkin)d" type="action" string="print checkin notification" attrs="{'invisible':[('state','not in',('hr',))]}" groups="up_internship.group_internship_recruiter"/>

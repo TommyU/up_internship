@@ -503,7 +503,7 @@ msgstr "餐费管理员"
 #. module: up_internship
 #: model:res.groups,name:up_internship.group_related_leaders
 msgid "related leaders"
-msgstr "相关领导"
+msgstr "餐费审批人"
 
 #. module: up_internship
 #: model:res.groups,comment:up_internship.group_meal_fee_manager
@@ -518,7 +518,7 @@ msgstr "实习生接收办事员"
 #. module: up_internship
 #: model:res.groups,comment:up_internship.group_internship_instructor
 msgid "the person who instructs the internship."
-msgstr "实习生指导员."
+msgstr "实习生管理员."
 
 #. module: up_internship
 #: model:res.groups,name:up_internship.group_clerk
@@ -548,7 +548,7 @@ msgstr "科长（所长指定的人员），职责是负责离院申请第一道
 #. module: up_internship
 #: model:res.groups,name:up_internship.group_internship_instructor
 msgid "internship instructor"
-msgstr "实习生指导员"
+msgstr "实习生管理员"
 
 #. module: up_internship
 #: model:res.groups,comment:up_internship.group_internship_recruiter
@@ -563,17 +563,17 @@ msgstr "所长，决定通过还是驳回实习申请的人。"
 #. module: up_internship
 #: model:res.groups,name:up_internship.group_section_chief
 msgid "section chief"
-msgstr "科长/所长制定的部长"
+msgstr "科长/所长指定的部长"
 
 #. module: up_internship
 #: model:res.groups,name:up_internship.group_director
 msgid "director"
-msgstr "所长"
+msgstr "实习生进院审批人"
 
 #. module: up_internship
 #: model:res.groups,comment:up_internship.group_related_leaders
 msgid "related leaders."
-msgstr "相关领导"
+msgstr "餐费审批人"
 
 #. module: up_internship
 #: model:res.groups,name:up_internship.group_badge_card_manager

@@ -250,5 +250,11 @@ class internship_request(osv.osv):
             pass
 
 
+    #--------------auth begin------------------------------
+    def search(self, cr, uid, domain, offset=0, limit=None, order=None, context=None, count=False):
+        #如果需要区分部门，则只显示本部门的单据
+
+        return super(internship_request,self).search(cr, uid, domain, context=context)
+    #--------------auth end--------------------------------
 internship_request()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
