@@ -29,7 +29,10 @@ import os
 import re
 _logger = logging.getLogger(__name__)
 class internship_request(osv.osv):
+    _inherit='wkf.auddit.osv'
     _name = 'internship.request'
+    _dept_field ='preset_dept'
+    _module_categ_name='internship request'
 
     def _name_get_resname(self, cr, uid, ids, object, method, context):
         data = {}
@@ -175,12 +178,12 @@ class internship_request(osv.osv):
         'diet_record_file_size': fields.integer('File Size'),
         'internship': fields.many2one('hr.member', string='internship',  required=True),
         'audditing_logs':fields.function(workflow_func._get_workflow_logs, string='auditting logs', type='one2many', relation="workflow.logs",readonly=True),
-        'c_date': fields.date(string='create date',  required=True),
+        #'c_date': fields.date(string='create date',  required=True),
         }
 
     _defaults={
         'state':'new',
-        'c_date':fields.date.context_today,
+        #'c_date':fields.date.context_today,
     }
 
     def create(self, cr, uid, vals, context={}):

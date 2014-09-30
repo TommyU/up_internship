@@ -579,3 +579,24 @@ msgstr "餐费审批人"
 #: model:res.groups,name:up_internship.group_badge_card_manager
 msgid "badge card manager"
 msgstr "工作卡管理员"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "to approve/reject"
+msgstr "待我审批的申请"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "my request"
+msgstr "我创建的申请"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "requests that need my approval"
+msgstr "需要我审核的申请"
+
+#. module: up_internship
+#: view:internship.request:0
+msgid "requests that created by me"
+msgstr "我创建的申请"
+

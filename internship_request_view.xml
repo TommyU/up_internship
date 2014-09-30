@@ -68,17 +68,18 @@
             <field name="arch" type="xml">
                 <form string="Internship Request" version="7.0">
                     <header>
-                        <button name="submit" type="workflow_submit" string="submit" states="new," groups="base.group_user"/>
-                        <button name="submit_apr" type="workflow_ok" string="approve" attrs="{'invisible':[('state','in',('new','stoped','resigned','accepted'))]}"/>
-                        <button name="submit" type="workflow_ok" string="to quit" groups="up_internship.group_clerk" attrs="{'invisible':[('state','not in',('accepted',))]}"/>
-                        <button name="reject" type="workflow_no" string="reject" states="director_appr," groups="up_internship.group_director,up_internship.group_related_leaders"/>
-                        <button name="cancel" type="workflow_cancel" string="cancel" states="director_audit,hr,"/>
+                        <button name="submit" type="workflow_submit" string="submit" states="new," groups="up_internship.group_clerk"/>
+                        <button name="submit" type="workflow_ok" string="approve" attrs="{'invisible':['|',('state','in',('new','stoped','resigned','accepted')),('cuid_auddit','=',False)]}"/>
+                        <button name="submit" type="workflow_ok" string="to quit" attrs="{'invisible':['|',('state','not in',('accepted',)),('cuid_auddit','=',False)]}"/>
+                        <button name="reject" type="workflow_no" string="reject" attrs="{'invisible':['|',('state','not in',('director_appr',)),('cuid_auddit','=',False)]}"/>
+                        <button name="cancel" type="workflow_cancel" string="cancel" attrs="{'invisible':['|',('state','not in',('director_audit','hr')),('cuid_auddit','=',False)]}"/>
                         <button name="%(up_internship.report_checkin)d" type="action" string="print checkin notification" attrs="{'invisible':[('state','not in',('hr',))]}" groups="up_internship.group_internship_recruiter"/>
                         <button name="%(up_internship.report_checkout)d" type="action" string="print checkout notification" attrs="{'invisible':[('state','not in',('checking_out',))]}" groups="up_internship.group_internship_instructor"/>
                         <field name="state" widget="statusbar" statusbar_visible="new,director_audit,hr,meal_card,accepted,to_resign,resigned"/>
                     </header>
                     <sheet>
-                        <field name="c_date" invisible="1"/>
+                        <field name="cuid_auddit" invisible="1"/>
+                        <field name="cuid_is_creator" invisible="1"/>
                         <group><field name="internship" on_change="onchange_internship(internship)" attrs="{'readonly':[('state','not in',('new',))]}"/></group>
                         <group>
                             <notebook>
@@ -93,40 +94,40 @@
                                 <page string="acceptance" states="hr,meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                     <group>
                                         <group>
-                                            <field name="checkin_company_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
-                                            <field name="checkin_hotel_date" attrs="{'readonly':[('state','not in',('hr',))],'required':[('state','in',('hr',))]}"/>
+                                            <field name="checkin_company_date" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)],'required':[('state','in',('hr',))]}"/>
+                                            <field name="checkin_hotel_date" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)],'required':[('state','in',('hr',))]}"/>
                                         </group>
                                         <group>
-                                            <field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" attrs="{'readonly':[('state','not in',('hr',))]}"/>
-                                            <field name="hotel_receptionist_tel" attrs="{'readonly':[('state','not in',('hr',))]}"/>
+                                            <field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)]}"/>
+                                            <field name="hotel_receptionist_tel" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)]}"/>
                                         </group>
 
                                     </group>
                                     <group>
-                                        <field widget="text" name="hotel_reception_message" attrs="{'readonly':[('state','not in',('hr',))]}"/>
-                                        <field name="arrival_notice" attrs="{'readonly':[('state','not in',('hr',))]}" invisible="1"/>
+                                        <field widget="text" name="hotel_reception_message" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)]}"/>
+                                        <field name="arrival_notice" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)]}" invisible="1"/>
                                     </group>
                                     <button type="object" confirm = "Are you sure to send the message?" name="notify_receptionist" string="send message" attrs="{'invisible':['|',('hotel_receptionist_tel','=',False),('hotel_reception_message','=',False)]}"/>
 
                                 </page>
                                 <page string="working card" states="meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                     <group>
-                                        <field name="meal_card_no"  attrs="{'readonly':[('state','not in',('meal_card',))]}"/>
-                                        <field name="meal_card_status"  attrs="{'readonly':[('state','not in',('meal_card','manager_appr'))],'required':[('state','in',('meal_card','manager_appr'))]}"/>
-                                        <field name="pledge_money_state"  attrs="{'readonly':[('state','not in',('meal_card','manager_appr'))],'required':[('state','in',('meal_card','manager_appr'))]}"/>
+                                        <field name="meal_card_no"  attrs="{'readonly':['|',('state','not in',('meal_card',)),('cuid_auddit','=',False)]}"/>
+                                        <field name="meal_card_status"  attrs="{'readonly':['|',('state','not in',('meal_card','manager_appr')),('cuid_auddit','=',False)],'required':[('state','in',('meal_card','manager_appr'))]}"/>
+                                        <field name="pledge_money_state"  attrs="{'readonly':['|',('state','not in',('meal_card','manager_appr')),('cuid_auddit','=',False)],'required':[('state','in',('meal_card','manager_appr'))]}"/>
                                         <field name="meal_card_memo"  attrs="{'readonly':[('state','not in',('meal_card','manager_appr'))]}" widget="text"/>
                                     </group>
                                 </page>
                                 <page string="resignation" states="accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                     <group>
-                                        <field name="resignation_date"  attrs="{'readonly':[('state','not in',('accepted',))],'required':[('state','in',('accepted',))]}"/>
-                                        <field name="diet_record_needed" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'readonly':[('state','not in',('diet_record',))],'required':[('state','in',('diet_record',))]}" style="width:80px"/>
-                                        <field name="diet_record" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'readonly':[('state','not in',('diet_record',))],'required':[('diet_record_needed','=','yes')]}"  filename="diet_record_name"/>
+                                        <field name="resignation_date"  attrs="{'readonly':['|',('state','not in',('accepted',)),('cuid_auddit','=',False)],'required':[('state','in',('accepted',))]}"/>
+                                        <field name="diet_record_needed" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'readonly':['|',('state','not in',('diet_record',)),('cuid_auddit','=',False)],'required':[('state','in',('diet_record',))]}" style="width:80px"/>
+                                        <field name="diet_record" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'readonly':['|',('state','not in',('diet_record',)),('cuid_auddit','=',False)],'required':[('diet_record_needed','=','yes')]}"  filename="diet_record_name"/>
                                         <field name="diet_record_name" invisible="1" />
                                         <label for="hotel_checkout_date"/>
                                         <div class="oe_inline">
-                                            <field class="oe_inline" no_label="1" name="hotel_checkout_date" attrs="{'readonly':[('state','not in',('accepted','checking_out',))],'required':[('state','in',('accepted','checking_out',))]}"/>
-                                            <field class="oe_inline" no_label="1" name="hotel_checkout_hour" states="checking_out,resigned,stoped" attrs="{'readonly':[('state','not in',('checking_out',))],'required':[('state','in',('checking_out',))]}"/>
+                                            <field class="oe_inline" no_label="1" name="hotel_checkout_date" attrs="{'readonly':['|',('state','not in',('accepted','checking_out',)),('cuid_auddit','=',False)],'required':[('state','in',('accepted','checking_out',))]}"/>
+                                            <field class="oe_inline" no_label="1" name="hotel_checkout_hour" states="checking_out,resigned,stoped" attrs="{'readonly':['|',('state','not in',('checking_out',)),('cuid_auddit','=',False)],'required':[('state','in',('checking_out',))]}"/>
                                         </div>
                                     </group>
                                 </page>
@@ -155,6 +156,8 @@
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
                 <search string="Internship Request">
+                    <filter icon="terp-check" name="cuid_auddit" string="to approve/reject" domain="[('cuid_auddit','=',True)]" help="requests that need my approval"/>
+                    <filter icon="terp-check" name="cuid_is_creator" string="my request" domain="[('cuid_is_creator','=',True)]" help="requests that created by me"/>
                     <newline/>
                     <group expand="0" string="Group By...">
                         <filter string="Preset dept." domain="[]" context="{'group_by':'preset_dept'}"/>
@@ -183,7 +186,7 @@
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_internship_request_search"/>
             <field name="domain">[]</field>
-            <field name="context">{}</field>
+            <field name="context">{'search_default_cuid_auddit':1,'search_default_cuid_is_creator':1}</field>
         </record>
 
         <record model="ir.actions.act_window.view" id="act_open_internship_request_view_form">

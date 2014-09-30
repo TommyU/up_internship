@@ -91,6 +91,7 @@
         </record>
 
         <!--==============buttons auth in form ======================= -->
+        <!--
         <record id="up_internship_auth" model="ir.ui.view">
             <field name="name">internship.request.auth.form</field>
             <field name="model">internship.request</field>
@@ -113,7 +114,7 @@
                 </button>
             </field>
         </record>
-
+        -->
 
         <!--=============mapping ==================================== -->
         <record model="workflow.state2group" id="s2g_director_audit">
