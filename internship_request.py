@@ -252,12 +252,18 @@ class internship_request(osv.osv):
         except Exception,ex:
             pass
 
+    def submit(self, cr, uid, ids, context={}):
+        #self.send_email(cr, uid, ids[0],sys_email='tommy.ywt@gmail.com',subject='sys email')
+        for data in self.browse(cr, uid, ids, context):
+            try:
+                self.send_BA_msg(cr, uid, data.id,
+                                 u'[实习管理流程]' + data.internship.name + '(state code:'+data.state + ')',
+                                 content='',
+                                 subject=u'系统消息[实习管理流程]'+data.internship.name +'实习申请',
+                                 context={})
+            except:
+                pass
 
-    #--------------auth begin------------------------------
-    def search(self, cr, uid, domain, offset=0, limit=None, order=None, context=None, count=False):
-        #如果需要区分部门，则只显示本部门的单据
 
-        return super(internship_request,self).search(cr, uid, domain, context=context)
-    #--------------auth end--------------------------------
 internship_request()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

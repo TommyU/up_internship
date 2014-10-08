@@ -177,7 +177,12 @@
             <field name="groups_id" eval="[(4, ref('up_internship.group_internship_instructor'))]"/>
         </record>
 
-
-
+        <record model="workflow.state2group" id="s2g_accept">
+            <field name="res_type">internship.request</field>
+            <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
+            <field name="act_id" ref="up_internship.internship_request_act_accepted"/>
+            <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
+            <field name="by_dept" eval="1"/>
+        </record>
     </data>
 </openerp>
