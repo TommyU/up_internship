@@ -147,7 +147,7 @@ class internship_request(osv.osv):
                                      ('to_resign',u'离院审批'),
                                      ('manager_appr',u'工作卡退回'),
                                      ('diet_record','diet records upload'),
-                                     ('director_appr','director approval'),
+                                     ('director_appr',u'餐费审批'),
                                      ('checking_out','checking out'),
                                      ('resigned','resigned'),
                                      ('stoped','stoped'),
