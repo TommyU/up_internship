@@ -138,7 +138,7 @@
             <field name="wfk_id" ref="up_internship.wkf_internship_request"/>
             <field name="act_id" ref="up_internship.internship_request_act_director_appr"/>
             <field name="by_dept" eval="1"/>
-            <field name="groups_id" eval="[(4, ref('up_internship.group_director')),(4, ref('up_internship.group_related_leaders'))]"/>
+            <field name="groups_id" eval="[(4, ref('up_internship.group_related_leaders'))]"/>
         </record>
 
         <!--deptless-->

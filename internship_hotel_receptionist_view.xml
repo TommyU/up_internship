@@ -54,8 +54,13 @@
         </record>
 
 
-        <menuitem name="hotel receptionist" id="menu_internship_hotel_receptionist" sequence="12"
-                  parent="up_recuitment.menu_recruitment_root" action="act_open_internship_hotel_receptionist_view"/>
+        <menuitem name="hotel receptionist"
+                  id="menu_internship_hotel_receptionist"
+                  sequence="12"
+                  parent="up_recuitment.menu_recruitment_root"
+                  action="act_open_internship_hotel_receptionist_view"
+                  groups="base.group_system"
+                />
 
 
     </data>
