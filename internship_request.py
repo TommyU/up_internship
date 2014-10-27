@@ -22,6 +22,7 @@ from osv import osv, fields
 from openerp.addons.workflow_china import workflow_func
 from openerp.tools.translate import _
 from openerp import tools
+
 import hashlib
 import itertools
 import logging
@@ -29,7 +30,7 @@ import os
 import re
 _logger = logging.getLogger(__name__)
 class internship_request(osv.osv):
-    _inherit='wkf.auddit.osv'
+    _inherit=["mail.thread",'wkf.auddit.osv']
     _name = 'internship.request'
     _dept_field ='preset_dept'
     _module_categ_name='internship request'
@@ -256,12 +257,26 @@ class internship_request(osv.osv):
         #self.send_email(cr, uid, ids[0],sys_email='tommy.ywt@gmail.com',subject='sys email')
         for data in self.browse(cr, uid, ids, context):
             try:
-                self.send_BA_msg(cr, uid, data.id,
-                                 u'[实习管理流程]' + data.internship.name + '(state code:'+data.state + ')',
-                                 content='',
-                                 subject=u'系统消息[实习管理流程]'+data.internship.name +'实习申请',
-                                 context={})
-            except:
+                # self.send_BA_msg(cr, uid, data.id,
+                #                  u'[实习管理流程]' + data.internship.name + '(state code:'+data.state + ')',
+                #                  content='',
+                #                  subject=u'系统消息[实习管理流程]'+data.internship.name +'实习申请',
+                #                  context={})
+                self.message_post(cr, uid, ids,
+                                  body=u'%s实习申请单已经提交至您，可能需要您审批或者查阅。(本消息由系统自动发出)'%(data.internship.name,),
+                                  subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                  subtype='mail.mt_comment', #一定要是这个,
+                                  type='comment', #一定要是这个TYPE,
+                                  context=context,
+                                  user_ids=self.get_audditors(cr, data),  #user_id 列表,
+                                  group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                  #以上两个二选一使用，全用也兼容
+                                  is_send_ant=True,
+                                  is_send_sms=True,
+                                  sms_body=''
+                )
+            except Exception,ex:
+                _logger.info(str(ex))
                 pass
 
 
