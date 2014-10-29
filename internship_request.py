@@ -34,6 +34,7 @@ class internship_request(osv.osv):
     _name = 'internship.request'
     _dept_field ='preset_dept'
     _module_categ_name='internship request'
+    _rec_name ='name'
 
     def _name_get_resname(self, cr, uid, ids, object, method, context):
         data = {}
@@ -138,6 +139,10 @@ class internship_request(osv.osv):
             super(internship_request, self).write(cr, uid, [id], {'diet_record_db_datas': value, 'diet_record_file_size': file_size}, context=context)
         return True
 
+    def _get_name(self, cr, uid, ids, name, arg, context=None):
+        res ={}.fromkeys(ids,u'实习管理流程')
+        return  res
+
     _columns = {
         'state':fields.selection([
                                      ('new','new'),
@@ -180,6 +185,7 @@ class internship_request(osv.osv):
         'internship': fields.many2one('hr.member', string='internship',  required=True),
         'audditing_logs':fields.function(workflow_func._get_workflow_logs, string='auditting logs', type='one2many', relation="workflow.logs",readonly=True),
         #'c_date': fields.date(string='create date',  required=True),
+        'name':fields.function(_get_name,type='char'),
         }
 
     _defaults={
