@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="view_internship_request_args_tree" model="ir.ui.view">
+            <field name="name">internship.request.args.tree</field>
+            <field name="model">internship.request.args</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Args" editable="top">
+                    <field name="key"/>
+                    <field name="value"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_internship_request_args_search" model="ir.ui.view">
+            <field name="name">internship.request.args.search</field>
+            <field name="model">internship.request.args</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Args">
+                    <field name="key"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_internship_request_args_view">
+            <field name="name">Internship Args</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internship.request.args</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_internship_request_args_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+
+        <menuitem name="Internship Args"
+                  id="menu_internship_request_args"
+                  sequence="14"
+                  parent="up_recuitment.menu_recruitment_root"
+                  action="act_open_internship_request_args_view"
+                  groups="base.group_system"
+                />
+
+
+    </data>
+</openerp>

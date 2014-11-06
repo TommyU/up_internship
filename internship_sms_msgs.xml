@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <record id="workflow_message_1" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_draft"/>
+            <field name="act_to_id" ref="internship_request_act_director_audit"/>
+            <field name="default_msg">现有实习生{{internship}}拟申请接收至本所，请登录内网人员管理-实习管理栏目进行审批处理。</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+        <record id="workflow_message_2" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_director_audit"/>
+            <field name="act_to_id" ref="internship_request_act_hr"/>
+            <field name="default_msg">{{applier}}所提出申请拟接收实习生{{internship}}，请及时登录内网处理</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+        <record id="workflow_message_3" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_hr"/>
+            <field name="act_to_id" ref="internship_request_act_meal_card"/>
+            <field name="default_msg">{{preset_dept}}所实习生{{internship}}已办结入院手续，请发卡</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+        <record id="workflow_message_4" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_accepted"/>
+            <field name="act_to_id" ref="internship_request_act_to_resign"/>
+            <field name="default_msg">实习生{{internship}}提出离院申请，请登录内网审批</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+        <record id="workflow_message_5" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_to_resign"/>
+            <field name="act_to_id" ref="internship_request_act_manager_appr"/>
+            <field name="default_msg">实习生{{internship}}已提出离院申请，请及时收回工作卡并登记</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+        <record id="workflow_message_6" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_manager_appr"/>
+            <field name="act_to_id" ref="internship_request_act_diet_record"/>
+            <field name="default_msg">实习生{{internship}}已提出离院申请，请及时提交用餐记录</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+        <record id="workflow_message_7" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_diet_record"/>
+            <field name="act_to_id" ref="internship_request_act_director_appr"/>
+            <field name="default_msg">实习生{{internship}}提出离院申请，用餐记录已上传，请确认</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+        <record id="workflow_message_8" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_director_appr"/>
+            <field name="act_to_id" ref="internship_request_act_checking_out"/>
+            <field name="default_msg">实习生{{internship}}离院申请已审批完结，请办理离院手续</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+        <record id="workflow_message_8" model="workflow.message">
+            <field name="res_type">internship.request</field>
+            <field name="act_from_id" ref="internship_request_act_director_appr"/>
+            <field name="act_to_id" ref="internship_request_act_diet_record"/>
+            <field name="default_msg">所长打回{{internship}}实习生的餐费记录单，请及时处理。</field>
+            <field name="follower_default_msg">.</field>
+        </record>
+
+    </data>
+</openerp>

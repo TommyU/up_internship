@@ -186,10 +186,12 @@ class internship_request(osv.osv):
         'audditing_logs':fields.function(workflow_func._get_workflow_logs, string='auditting logs', type='one2many', relation="workflow.logs",readonly=True),
         #'c_date': fields.date(string='create date',  required=True),
         'name':fields.function(_get_name,type='char'),
+        'applier':fields.many2one('res.users',string="applier"),
         }
 
     _defaults={
         'state':'new',
+        #'applier':lambda self,cr,uid,c:uid,
         #'c_date':fields.date.context_today,
     }
 
@@ -259,6 +261,24 @@ class internship_request(osv.osv):
         except Exception,ex:
             pass
 
+    def _get_arg(self, cr, key, id, context={}):
+        """
+        从参数表internship_request_args获取信息
+        :param cr:
+        :param key:参数名
+        :param id:self._name对象的实例id
+        :param context:
+        :return:
+        """
+        cr.execute("select value from internship_request_args where key = '%s'"%(key,))
+        msg = cr.fetchall()
+        msg_obj = self.pool.get('workflow.message')
+        if msg and len(msg)>0:
+            msg = msg[0][0]
+            return msg_obj._compile_msg(cr, msg, self._name, id, context=context)
+        return ''
+
+
     def submit(self, cr, uid, ids, context={}):
         #self.send_email(cr, uid, ids[0],sys_email='tommy.ywt@gmail.com',subject='sys email')
         for data in self.browse(cr, uid, ids, context):
@@ -268,23 +288,90 @@ class internship_request(osv.osv):
                 #                  content='',
                 #                  subject=u'系统消息[实习管理流程]'+data.internship.name +'实习申请',
                 #                  context={})
-                self.message_post(cr, uid, ids,
-                                  body=u'%s实习申请单已经提交至您，可能需要您审批或者查阅。(本消息由系统自动发出)'%(data.internship.name,),
-                                  subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
-                                  subtype='mail.mt_comment', #一定要是这个,
-                                  type='comment', #一定要是这个TYPE,
-                                  context=context,
-                                  user_ids=self.get_audditors(cr, data),  #user_id 列表,
-                                  group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
-                                  #以上两个二选一使用，全用也兼容
-                                  is_send_ant=True,
-                                  is_send_sms=True,
-                                  sms_body=''
-                )
+                msg_obj = self.pool.get('workflow.message')
+                auditors = self.get_audditors(cr, data)
+                #审批
+                for au_id in auditors:
+                    msg = msg_obj.get_message(cr,au_id, self._name, data.id, 'submit', context=context)
+                    self.message_post(cr, uid, ids,
+                                      body=msg or u'%s实习申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,),
+                                      subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                      subtype='mail.mt_comment', #一定要是这个,
+                                      type='comment', #一定要是这个TYPE,
+                                      context=context,
+                                      user_ids=[au_id],  #user_id 列表,
+                                      group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                      #以上两个二选一使用，全用也兼容
+                                      is_send_ant=True,
+                                      is_send_sms=True,
+                                      sms_body=''
+                    )
+                #知会
+                followers_msgs = msg_obj.get_followers_messages(cr, self._name, data.id, 'submit', context=context)
+                for line in followers_msgs:
+                    if line and line.get('follower_uid',False):
+                        msg = line.get('msg', False) or u'%s实习申请单已经提交。'%(data.internship.name,)
+                        self.message_post(cr, uid, ids,
+                                          body= msg,
+                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                          subtype='mail.mt_comment', #一定要是这个,
+                                          type='comment', #一定要是这个TYPE,
+                                          context=context,
+                                          user_ids=[line.get('follower_uid',False)],  #user_id 列表,
+                                          group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                          #以上两个二选一使用，全用也兼容
+                                          is_send_ant=True,
+                                          is_send_sms=True,
+                                          sms_body=''
+                        )
+
+                #特殊
+                #. 入院，所长批后，发短信给【工作卡管理员】和实习生
+                if data.state == 'director_audit':
+                    sms_obj = self.pool.get('sms.sms')
+                    #实习生
+                    msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会实习生消息', data.id, context=context)
+                    if not msg:
+                        msg = u'深规院%s所拟同意接受你的实习申请，请你按照申请的实习时间准时报到，并保持手机畅通。'
+                        msg = msg%(data.preset_dept.name,)
+                    sid = sms_obj.create(cr, uid,
+                                         {'to': data.internship.moblie.replace(' ','').replace('-',''),  #手机号码，如果多个人用,隔开
+                                          'content': msg, #短信内容
+                                          'model': 'internship.request', # 相关模块
+                                          'res_id': data.id}, #相关ID
+                                         context=context)
+                    #工作卡管理员(up_internship.group_badge_card_manager)
+                    msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会工作卡管理员消息', data.id, context=context)
+                    if not msg:
+                        msg = u'%s所提出申请拟接收实习生%s，请及时登录内网处理。'
+                        msg = msg%(data.preset_dept.name,data.internship.name)
+                    self.message_post(cr, uid, ids,
+                                          body= msg,
+                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                          subtype='mail.mt_comment', #一定要是这个,
+                                          type='comment', #一定要是这个TYPE,
+                                          context=context,
+                                          #user_ids=[],  #user_id 列表,
+                                          group_xml_ids='up_internship.group_badge_card_manager',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                          #以上两个二选一使用，全用也兼容
+                                          is_send_ant=True,
+                                          is_send_sms=True,
+                                          sms_body=''
+                    )
+                    #pass
+
             except Exception,ex:
                 _logger.info(str(ex))
                 pass
 
 
 internship_request()
+
+class internship_request_args(osv.osv):
+    _name = 'internship.request.args'
+    _columns={
+        'key': fields.char('key',size=512),
+        'value': fields.char('value',size=1024),
+    }
+internship_request_args()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

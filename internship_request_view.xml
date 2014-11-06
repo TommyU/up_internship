@@ -80,6 +80,7 @@
                     <sheet>
                         <field name="cuid_auddit" invisible="1"/>
                         <field name="cuid_is_creator" invisible="1"/>
+                        <field name="applier" invisible="1"/>
                         <group><field name="internship" on_change="onchange_internship(internship)" attrs="{'readonly':[('state','not in',('new',))]}"/></group>
                         <group>
                             <notebook>
@@ -186,7 +187,7 @@
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_internship_request_search"/>
             <field name="domain">[]</field>
-            <field name="context">{'search_default_cuid_auddit':1,'search_default_cuid_is_creator':1}</field>
+            <field name="context">{'search_default_cuid_auddit':1,'search_default_cuid_is_creator':1,'default_applier':uid}</field>
         </record>
 
         <record model="ir.actions.act_window.view" id="act_open_internship_request_view_form">

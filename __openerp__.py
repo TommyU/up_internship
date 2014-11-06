@@ -36,6 +36,7 @@
         'internship_hotel_receptionist_view.xml',
         'internship_request_wkf.xml',
         'recruitment.xml',
+        'internship_args.xml',
         'security/ir.model.access.csv',
         'res_groups.xml',
     ],
