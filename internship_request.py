@@ -387,6 +387,48 @@ class internship_request(osv.osv):
                 _logger.info(str(ex))
                 pass
 
+    def reject(self, cr, uid ,ids, context={}):
+        for data in self.browse(cr, uid, ids, context):
+            try:
+                msg_obj = self.pool.get('workflow.message')
+                auditors = self.get_audditors(cr, data)
+                #审批
+                for au_id in auditors:
+                    msg = msg_obj.get_message(cr,au_id, self._name, data.id, 'reject', context=context)
+                    self.message_post(cr, uid, ids,
+                                      body=msg or u'%s实习申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,),
+                                      subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                      subtype='mail.mt_comment', #一定要是这个,
+                                      type='comment', #一定要是这个TYPE,
+                                      context=context,
+                                      user_ids=[au_id],  #user_id 列表,
+                                      group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                      #以上两个二选一使用，全用也兼容
+                                      is_send_ant=True,
+                                      is_send_sms=True,
+                                      sms_body=''
+                    )
+                #知会
+                followers_msgs = msg_obj.get_followers_messages(cr, self._name, data.id, 'reject', context=context)
+                for line in followers_msgs:
+                    if line and line.get('follower_uid',False):
+                        msg = line.get('msg', False) or u'%s实习申请单已经提交。'%(data.internship.name,)
+                        self.message_post(cr, uid, ids,
+                                          body= msg,
+                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                          subtype='mail.mt_comment', #一定要是这个,
+                                          type='comment', #一定要是这个TYPE,
+                                          context=context,
+                                          user_ids=[line.get('follower_uid',False)],  #user_id 列表,
+                                          group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                          #以上两个二选一使用，全用也兼容
+                                          is_send_ant=True,
+                                          is_send_sms=True,
+                                          sms_body=''
+                        )
+            except Exception,ex:
+                _logger.info(str(ex))
+                pass
 
 internship_request()
 

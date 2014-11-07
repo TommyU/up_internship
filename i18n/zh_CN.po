@@ -600,3 +600,26 @@ msgstr "需要我审核的申请"
 msgid "requests that created by me"
 msgstr "我创建的申请"
 
+#. module: up_internship
+#: field:internship.request,applier:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_applier
+msgid "applier"
+msgstr "填单人"
+
+#. module: up_internship
+#: model:ir.actions.act_window,name:up_internship.act_open_internship_request_args_view
+#: model:ir.ui.menu,name:up_internship.menu_internship_request_args
+msgid "Internship Args"
+msgstr "实习管理流程参数"
+
+#. module: up_internship
+#: field:internship.request.args,key:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_args_key
+msgid "key"
+msgstr "参数"
+
+#. module: up_internship
+#: field:internship.request.args,value:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_args_value
+msgid "value"
+msgstr "值"
