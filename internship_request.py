@@ -364,20 +364,22 @@ class internship_request(osv.osv):
                     if not msg:
                         msg = u'实习生%s已通过审批进入本所，请及时与对方联系办理入院手续。'
                         msg = msg%(data.internship.name,)
-                    group_clerk_browse_record = self.pool.get('ir.model.data').get_object(cr, 1, 'up_internship', 'group_clerk')
-                    group_clerk_user_list = filter(lambda x:x.active and x.id,group_clerk_browse_record.users)
-                    self.message_post(cr, uid, ids,
-                                          body= msg,
-                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
-                                          subtype='mail.mt_comment', #一定要是这个,
-                                          type='comment', #一定要是这个TYPE,
-                                          context=context,
-                                          user_ids=group_clerk_user_list,  #user_id 列表,
-                                          group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
-                                          #以上两个二选一使用，全用也兼容
-                                          is_send_ant=True,
-                                          is_send_sms=True,
-                                          sms_body=''
+                    #group_clerk_browse_record = self.pool.get('ir.model.data').get_object(cr, 1, 'up_internship', 'group_clerk')
+                    #group_clerk_user_list = filter(lambda x:x.active and x.id,group_clerk_browse_record.users)
+                    group_clerk_users = self.get_dept_user('up_internship.group_clerk')
+                    if group_clerk_users:
+                        self.message_post(cr, uid, ids,
+                                              body= msg,
+                                              subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                              subtype='mail.mt_comment', #一定要是这个,
+                                              type='comment', #一定要是这个TYPE,
+                                              context=context,
+                                              user_ids=group_clerk_user_list,  #user_id 列表,
+                                              group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                              #以上两个二选一使用，全用也兼容
+                                              is_send_ant=True,
+                                              is_send_sms=True,
+                                              sms_body=''
                     )
                     #pass
 
