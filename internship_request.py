@@ -341,7 +341,7 @@ class internship_request(osv.osv):
                                           'res_id': data.id}, #相关ID
                                          context=context)
                     #工作卡管理员(up_internship.group_badge_card_manager)
-                    cm_ids = self.get_uids('up_internship.group_badge_card_manager')
+                    cm_ids = self.get_uids(cr, uid, data.id, 'up_internship.group_badge_card_manager', context=context)
                     if cm_ids:
                         msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会工作卡管理员消息', data.id, context=context)
                         if not msg:
@@ -362,9 +362,7 @@ class internship_request(osv.osv):
                         )
                     
                     #部门文员(up_internship.group_clerk)
-                    #group_clerk_browse_record = self.pool.get('ir.model.data').get_object(cr, 1, 'up_internship', 'group_clerk')
-                    #group_clerk_user_list = filter(lambda x:x.active and x.id,group_clerk_browse_record.users)
-                    group_clerk_uids = self.get_uids('up_internship.group_clerk')
+                    group_clerk_uids = self.get_uids(cr, uid, data.id, 'up_internship.group_clerk', context=context)
                     if group_clerk_uids:
                         msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会部门文员消息', data.id, context=context)
                         if not msg:
