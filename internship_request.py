@@ -327,7 +327,7 @@ class internship_request(osv.osv):
 
                 #特殊
                 #. 入院，所长批后，发短信给【工作卡管理员】和实习生
-                if data.state == 'director_audit':
+                if data.state == 'hr':
                     sms_obj = self.pool.get('sms.sms')
                     #实习生
                     msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会实习生消息', data.id, context=context)
