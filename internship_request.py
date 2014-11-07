@@ -341,40 +341,42 @@ class internship_request(osv.osv):
                                           'res_id': data.id}, #相关ID
                                          context=context)
                     #工作卡管理员(up_internship.group_badge_card_manager)
-                    msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会工作卡管理员消息', data.id, context=context)
-                    if not msg:
-                        msg = u'%s所提出申请拟接收实习生%s，请及时登录内网处理。'
-                        msg = msg%(data.preset_dept.name,data.internship.name)
-                    self.message_post(cr, uid, ids,
-                                          body= msg,
-                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
-                                          subtype='mail.mt_comment', #一定要是这个,
-                                          type='comment', #一定要是这个TYPE,
-                                          context=context,
-                                          #user_ids=[],  #user_id 列表,
-                                          group_xml_ids='up_internship.group_badge_card_manager',# 形如 xx.xxxx,xxx.xxx  的形式,
-                                          #以上两个二选一使用，全用也兼容
-                                          is_send_ant=True,
-                                          is_send_sms=True,
-                                          sms_body=''
-                    )
-                    
-                    #部门文员(up_internship.group_clerk)
-                    msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会部门文员消息', data.id, context=context)
-                    if not msg:
-                        msg = u'实习生%s已通过审批进入本所，请及时与对方联系办理入院手续。'
-                        msg = msg%(data.internship.name,)
-                    #group_clerk_browse_record = self.pool.get('ir.model.data').get_object(cr, 1, 'up_internship', 'group_clerk')
-                    #group_clerk_user_list = filter(lambda x:x.active and x.id,group_clerk_browse_record.users)
-                    group_clerk_users = self.get_dept_user('up_internship.group_clerk')
-                    if group_clerk_users:
+                    cm_ids = self.get_uids('up_internship.group_badge_card_manager')
+                    if cm_ids:
+                        msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会工作卡管理员消息', data.id, context=context)
+                        if not msg:
+                            msg = u'%s所提出申请拟接收实习生%s，请及时登录内网处理。'
+                            msg = msg%(data.preset_dept.name,data.internship.name)
                         self.message_post(cr, uid, ids,
                                               body= msg,
                                               subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
                                               subtype='mail.mt_comment', #一定要是这个,
                                               type='comment', #一定要是这个TYPE,
                                               context=context,
-                                              user_ids=group_clerk_users,  #user_id 列表,
+                                              user_ids=cm_ids,  #user_id 列表,
+                                              group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                              #以上两个二选一使用，全用也兼容
+                                              is_send_ant=True,
+                                              is_send_sms=True,
+                                              sms_body=''
+                        )
+                    
+                    #部门文员(up_internship.group_clerk)
+                    #group_clerk_browse_record = self.pool.get('ir.model.data').get_object(cr, 1, 'up_internship', 'group_clerk')
+                    #group_clerk_user_list = filter(lambda x:x.active and x.id,group_clerk_browse_record.users)
+                    group_clerk_uids = self.get_uids('up_internship.group_clerk')
+                    if group_clerk_uids:
+                        msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会部门文员消息', data.id, context=context)
+                        if not msg:
+                            msg = u'实习生%s已通过审批进入本所，请及时与对方联系办理入院手续。'
+                            msg = msg%(data.internship.name,)
+                        self.message_post(cr, uid, ids,
+                                              body= msg,
+                                              subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                              subtype='mail.mt_comment', #一定要是这个,
+                                              type='comment', #一定要是这个TYPE,
+                                              context=context,
+                                              user_ids=group_clerk_uids,  #user_id 列表,
                                               group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
                                               #以上两个二选一使用，全用也兼容
                                               is_send_ant=True,
