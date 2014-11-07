@@ -374,7 +374,7 @@ class internship_request(osv.osv):
                                               subtype='mail.mt_comment', #一定要是这个,
                                               type='comment', #一定要是这个TYPE,
                                               context=context,
-                                              user_ids=group_clerk_user_list,  #user_id 列表,
+                                              user_ids=group_clerk_users,  #user_id 列表,
                                               group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
                                               #以上两个二选一使用，全用也兼容
                                               is_send_ant=True,
