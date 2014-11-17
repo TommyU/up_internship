@@ -288,10 +288,14 @@ class internship_request(osv.osv):
                 #                  content='',
                 #                  subject=u'系统消息[实习管理流程]'+data.internship.name +'实习申请',
                 #                  context={})
+                mailed_users= []
                 msg_obj = self.pool.get('workflow.message')
                 auditors = self.get_audditors(cr, data)
                 #审批
                 for au_id in auditors:
+                    if au_id in mailed_users:
+                        continue
+                    mailed_users.append(au_id)
                     msg = msg_obj.get_message(cr,au_id, self._name, data.id, 'submit', context=context)
                     self.message_post(cr, uid, ids,
                                       body=msg or u'%s实习申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,),
@@ -325,7 +329,7 @@ class internship_request(osv.osv):
                                           sms_body=''
                         )
 
-                #特殊
+                #特别补充
                 #. 入院，所长批后，发短信给【工作卡管理员】和实习生
                 if data.state == 'hr':
                     sms_obj = self.pool.get('sms.sms')
@@ -396,7 +400,7 @@ class internship_request(osv.osv):
                 for au_id in auditors:
                     msg = msg_obj.get_message(cr,au_id, self._name, data.id, 'reject', context=context)
                     self.message_post(cr, uid, ids,
-                                      body=msg or u'%s实习申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,),
+                                      body=msg or u'%s实习申请单已经退回至您，可能需要您审批或者查阅。'%(data.internship.name,),
                                       subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
                                       subtype='mail.mt_comment', #一定要是这个,
                                       type='comment', #一定要是这个TYPE,
