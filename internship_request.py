@@ -291,7 +291,8 @@ class internship_request(osv.osv):
                 mailed_users= []
                 msg_obj = self.pool.get('workflow.message')
                 auditors = self.get_audditors(cr, data)
-                #审批
+                msg=''
+                #审批(大蚂蚁和短信）
                 for au_id in auditors:
                     if au_id in mailed_users:
                         continue
@@ -308,13 +309,34 @@ class internship_request(osv.osv):
                                       #以上两个二选一使用，全用也兼容
                                       is_send_ant=True,
                                       is_send_sms=True,
+                                      is_send_sys=False,
                                       sms_body=''
                     )
-                #知会
+
+                #审批（系统消息）
+                if auditors:
+                    self.message_post(cr, uid, ids,
+                                          body=msg or u'%s实习申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,),
+                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                          subtype='mail.mt_comment', #一定要是这个,
+                                          type='comment', #一定要是这个TYPE,
+                                          context=context,
+                                          user_ids=auditors,  #user_id 列表,
+                                          group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                          #以上两个二选一使用，全用也兼容
+                                          is_send_ant=False,
+                                          is_send_sms=False,
+                                          is_send_sys=True,
+                                          sms_body=''
+                        )
+                #知会（大蚂蚁和短信）
                 followers_msgs = msg_obj.get_followers_messages(cr, self._name, data.id, 'submit', context=context)
+                msg = ''
+                f_uids= []
                 for line in followers_msgs:
                     if line and line.get('follower_uid',False):
                         msg = line.get('msg', False) or u'%s实习申请单已经提交。'%(data.internship.name,)
+                        f_uids.append([line.get('follower_uid',False)])
                         self.message_post(cr, uid, ids,
                                           body= msg,
                                           subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
@@ -326,8 +348,25 @@ class internship_request(osv.osv):
                                           #以上两个二选一使用，全用也兼容
                                           is_send_ant=True,
                                           is_send_sms=True,
+                                          is_send_sys=False,
                                           sms_body=''
                         )
+                #知会（系统消息）
+                if f_uids:
+                    self.message_post(cr, uid, ids,
+                                      body= msg,
+                                      subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                      subtype='mail.mt_comment', #一定要是这个,
+                                      type='comment', #一定要是这个TYPE,
+                                      context=context,
+                                      user_ids=[line.get('follower_uid',False)],  #user_id 列表,
+                                      group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                      #以上两个二选一使用，全用也兼容
+                                      is_send_ant=False,
+                                      is_send_sms=False,
+                                      is_send_sys=True,
+                                      sms_body=''
+                    )
 
                 #特别补充
                 #. 入院，所长批后，发短信给【工作卡管理员】和实习生
@@ -362,6 +401,7 @@ class internship_request(osv.osv):
                                               #以上两个二选一使用，全用也兼容
                                               is_send_ant=True,
                                               is_send_sms=True,
+                                              #is_send_sys=True,
                                               sms_body=''
                         )
                     
