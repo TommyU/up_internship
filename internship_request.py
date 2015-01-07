@@ -157,7 +157,7 @@ class internship_request(osv.osv):
                                      ('checking_out','checking out'),
                                      ('resigned','resigned'),
                                      ('stoped','stoped'),
-                                 ],string='state'),
+                                     ],string='state'),
         'preset_dept': fields.many2one('hr.department', string='preset dept.',  required=True),
         'preset_instructor': fields.many2one('hr.employee', string='preset instructor',  required=False),
         'start_date': fields.date(string='start date',  required=True),
@@ -225,7 +225,7 @@ class internship_request(osv.osv):
         return {'value':{
             'hotel_receptionist_tel':re.phone or '',
             'hotel_reception_message':re.msg or '',
-        }}
+            }}
 
     def onchange_internship(self, cr, uid, ids, internship_id, context={}):
         if not internship_id:
@@ -318,19 +318,21 @@ class internship_request(osv.osv):
                 #审批（系统消息）
                 if auditors:
                     self.message_post(cr, uid, ids,
-                                          body=msg or u'%s%s申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,bill_type),
-                                          subject=u'[实习管理流程]'+data.internship.name  + bill_type +u'申请',
-                                          subtype='mail.mt_comment', #一定要是这个,
-                                          type='comment', #一定要是这个TYPE,
-                                          context=context,
-                                          user_ids=auditors,  #user_id 列表,
-                                          group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
-                                          #以上两个二选一使用，全用也兼容
-                                          is_send_ant=False,
-                                          is_send_sms=False,
-                                          is_send_sys=True,
-                                          sms_body=''
-                        )
+                                      body=msg or u'%s%s申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,bill_type),
+                                      subject=u'[实习管理流程]'+data.internship.name  + bill_type +u'申请',
+                                      subtype='mail.mt_comment', #一定要是这个,
+                                      type='comment', #一定要是这个TYPE,
+                                      context=context,
+                                      user_ids=auditors,  #user_id 列表,
+                                      group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                      #以上两个二选一使用，全用也兼容
+                                      is_send_ant=False,
+                                      is_send_sms=False,
+                                      is_send_sys=True,
+                                      sms_body=''
+                    )
+                    _logger.info('[internship.request] message_post with is_send_sys to True called!')
+
                 #知会（大蚂蚁和短信）
                 followers_msgs = msg_obj.get_followers_messages(cr, self._name, data.id, 'submit', context=context)
                 msg = ''
@@ -393,20 +395,20 @@ class internship_request(osv.osv):
                             msg = u'%s所提出申请拟接收实习生%s，请及时登录内网处理。'
                             msg = msg%(data.preset_dept.name,data.internship.name)
                         self.message_post(cr, uid, ids,
-                                              body= msg,
-                                              subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
-                                              subtype='mail.mt_comment', #一定要是这个,
-                                              type='comment', #一定要是这个TYPE,
-                                              context=context,
-                                              user_ids=cm_ids,  #user_id 列表,
-                                              group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
-                                              #以上两个二选一使用，全用也兼容
-                                              is_send_ant=True,
-                                              is_send_sms=True,
-                                              #is_send_sys=True,
-                                              sms_body=''
+                                          body= msg,
+                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                          subtype='mail.mt_comment', #一定要是这个,
+                                          type='comment', #一定要是这个TYPE,
+                                          context=context,
+                                          user_ids=cm_ids,  #user_id 列表,
+                                          group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                          #以上两个二选一使用，全用也兼容
+                                          is_send_ant=True,
+                                          is_send_sms=True,
+                                          #is_send_sys=True,
+                                          sms_body=''
                         )
-                    
+
                     #部门文员(up_internship.group_clerk)
                     group_clerk_uids = self.get_uids(cr, uid, data.id, 'up_internship.group_clerk', context=context)
                     if group_clerk_uids:
@@ -415,19 +417,19 @@ class internship_request(osv.osv):
                             msg = u'实习生%s已通过审批进入本所，请及时与对方联系办理入院手续。'
                             msg = msg%(data.internship.name,)
                         self.message_post(cr, uid, ids,
-                                              body= msg,
-                                              subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
-                                              subtype='mail.mt_comment', #一定要是这个,
-                                              type='comment', #一定要是这个TYPE,
-                                              context=context,
-                                              user_ids=group_clerk_uids,  #user_id 列表,
-                                              group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
-                                              #以上两个二选一使用，全用也兼容
-                                              is_send_ant=True,
-                                              is_send_sms=True,
-                                              sms_body=''
-                    )
-                    #pass
+                                          body= msg,
+                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                          subtype='mail.mt_comment', #一定要是这个,
+                                          type='comment', #一定要是这个TYPE,
+                                          context=context,
+                                          user_ids=group_clerk_uids,  #user_id 列表,
+                                          group_xml_ids='',# 形如 xx.xxxx,xxx.xxx  的形式,
+                                          #以上两个二选一使用，全用也兼容
+                                          is_send_ant=True,
+                                          is_send_sms=True,
+                                          sms_body=''
+                        )
+                        #pass
                 #实习生其他消息补充 2015/1/8
                 #“离院审批”后提醒实习生“到办公室高斌处退回工作卡”
                 #“餐费审批”后提醒实习生“到办公室马丽处办理离院退房手续”
@@ -506,6 +508,6 @@ class internship_request_args(osv.osv):
     _columns={
         'key': fields.char('key',size=512),
         'value': fields.char('value',size=1024),
-    }
+        }
 internship_request_args()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
