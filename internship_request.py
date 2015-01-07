@@ -428,6 +428,29 @@ class internship_request(osv.osv):
                                               sms_body=''
                     )
                     #pass
+                #实习生其他消息补充 2015/1/8
+                #“离院审批”后提醒实习生“到办公室高斌处退回工作卡”
+                #“餐费审批”后提醒实习生“到办公室马丽处办理离院退房手续”
+                msg =''
+                if data.state == 'manager_appr':
+                    #实习生
+                    msg = self._get_arg(cr, u'[实习管理流程]离院审批后知会实习生消息', data.id, context=context)
+                    if not msg:
+                        msg = u'请到办公室高斌处退回工作卡。'
+                        #msg = msg%(data.preset_dept.name,)
+                elif data.state == 'checking_out':
+                    msg = self._get_arg(cr, u'[实习管理流程]餐费审批后知会实习生消息', data.id, context=context)
+                    if not msg:
+                        msg = u'请到办公室马丽处办理离院退房手续。'
+                        #msg = msg%(data.preset_dept.name,)
+                if msg:
+                    sms_obj = self.pool.get('sms.sms')
+                    sid = sms_obj.create(cr, uid,
+                                         {'to': data.internship.moblie.replace(' ','').replace('-',''),  #手机号码，如果多个人用,隔开
+                                          'content': msg, #短信内容
+                                          'model': 'internship.request', # 相关模块
+                                          'res_id': data.id}, #相关ID
+                                         context=context)
 
             except Exception,ex:
                 _logger.exception(u'实习流程提交异常:%s'%str(ex))
