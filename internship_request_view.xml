@@ -73,7 +73,7 @@
                         <button name="submit" type="workflow_ok" string="to quit" attrs="{'invisible':['|',('state','not in',('accepted',)),('cuid_auddit','=',False)]}"/>
                         <button name="reject" type="workflow_no" string="reject" attrs="{'invisible':['|',('state','not in',('director_appr',)),('cuid_auddit','=',False)]}"/>
                         <button name="cancel" type="workflow_cancel" string="cancel" attrs="{'invisible':['|',('state','not in',('director_audit','hr')),('cuid_auddit','=',False)]}"/>
-                        <button name="%(up_internship.report_checkin)d" type="action" string="print checkin notification" attrs="{'invisible':[('state','not in',('hr',))]}" groups="up_internship.group_internship_recruiter"/>
+                        <button name="%(up_internship.report_checkin)d" type="action" string="print checkin notification" attrs="{'invisible':[('state','not in',('hr',))]}" groups="up_internship.group_internship_instructor"/>
                         <button name="%(up_internship.report_checkout)d" type="action" string="print checkout notification" attrs="{'invisible':[('state','not in',('checking_out',))]}" groups="up_internship.group_internship_instructor"/>
                         <field name="state" widget="statusbar" statusbar_visible="new,director_audit,hr,meal_card,accepted,to_resign,resigned"/>
                     </header>

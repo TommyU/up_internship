@@ -293,14 +293,16 @@ class internship_request(osv.osv):
                 auditors = self.get_audditors(cr, data)
                 msg=''
                 #审批(大蚂蚁和短信）
+                bill_type=u'实习' if data.state in ('new','director_audit','hr', 'meal_card','accepted') else u'离院'
                 for au_id in auditors:
                     if au_id in mailed_users:
                         continue
                     mailed_users.append(au_id)
                     msg = msg_obj.get_message(cr,au_id, self._name, data.id, 'submit', context=context)
+                    _logger.warn('[msg debug]sms msg:%s'% msg)
                     self.message_post(cr, uid, ids,
-                                      body=msg or u'%s实习申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,),
-                                      subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                      body=msg or u'%s%s申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,bill_type),
+                                      subject=u'[实习管理流程]'+data.internship.name  + bill_type +u'申请',
                                       subtype='mail.mt_comment', #一定要是这个,
                                       type='comment', #一定要是这个TYPE,
                                       context=context,
@@ -316,8 +318,8 @@ class internship_request(osv.osv):
                 #审批（系统消息）
                 if auditors:
                     self.message_post(cr, uid, ids,
-                                          body=msg or u'%s实习申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,),
-                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                          body=msg or u'%s%s申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,bill_type),
+                                          subject=u'[实习管理流程]'+data.internship.name  + bill_type +u'申请',
                                           subtype='mail.mt_comment', #一定要是这个,
                                           type='comment', #一定要是这个TYPE,
                                           context=context,
@@ -335,11 +337,11 @@ class internship_request(osv.osv):
                 f_uids= []
                 for line in followers_msgs:
                     if line and line.get('follower_uid',False):
-                        msg = line.get('msg', False) or u'%s实习申请单已经提交。'%(data.internship.name,)
+                        msg = line.get('msg', False) or u'%s%s申请单已经提交。'%(data.internship.name,bill_type)
                         f_uids.append([line.get('follower_uid',False)])
                         self.message_post(cr, uid, ids,
                                           body= msg,
-                                          subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                          subject=u'[实习管理流程]'+data.internship.name  + bill_type +u'申请',
                                           subtype='mail.mt_comment', #一定要是这个,
                                           type='comment', #一定要是这个TYPE,
                                           context=context,
@@ -355,7 +357,7 @@ class internship_request(osv.osv):
                 if f_uids:
                     self.message_post(cr, uid, ids,
                                       body= msg,
-                                      subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
+                                      subject=u'[实习管理流程]'+data.internship.name + bill_type + u'申请',
                                       subtype='mail.mt_comment', #一定要是这个,
                                       type='comment', #一定要是这个TYPE,
                                       context=context,
@@ -428,7 +430,7 @@ class internship_request(osv.osv):
                     #pass
 
             except Exception,ex:
-                _logger.info(str(ex))
+                _logger.exception(u'实习流程提交异常:%s'%str(ex))
                 pass
 
     def reject(self, cr, uid ,ids, context={}):
@@ -471,7 +473,7 @@ class internship_request(osv.osv):
                                           sms_body=''
                         )
             except Exception,ex:
-                _logger.info(str(ex))
+                _logger.error(str(ex))
                 pass
 
 internship_request()
