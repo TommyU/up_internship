@@ -215,7 +215,7 @@
             <field name="view_mode">form</field>
             <field name="search_view_id" ref="view_internship_request_search"/>
             <field name="domain">[]</field>
-            <field name="context">{'default_internship':active_id}</field>
+            <field name="context">{'default_internship':active_id,'default_applier':uid}</field>
         </record>
 
     </data>
