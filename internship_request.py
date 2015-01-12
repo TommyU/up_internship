@@ -283,6 +283,9 @@ class internship_request(osv.osv):
         #self.send_email(cr, uid, ids[0],sys_email='tommy.ywt@gmail.com',subject='sys email')
         for data in self.browse(cr, uid, ids, context):
             try:
+
+                #cm_ids = self.get_uids(cr, uid, data.id, 'up_internship.group_badge_card_manager', context=context)
+                #group_clerk_uids = self.get_uids(cr, uid, data.id, 'up_internship.group_clerk', context=context)
                 # self.send_BA_msg(cr, uid, data.id,
                 #                  u'[实习管理流程]' + data.internship.name + '(state code:'+data.state + ')',
                 #                  content='',
@@ -379,7 +382,7 @@ class internship_request(osv.osv):
                     #实习生
                     msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会实习生消息', data.id, context=context)
                     if not msg:
-                        msg = u'深规院%s所拟同意接受你的实习申请，请你按照申请的实习时间准时报到，并保持手机畅通。'
+                        msg = u'深规院[%s]拟同意接受你的实习申请，请你按照申请的实习时间准时报到，并保持手机畅通。'
                         msg = msg%(data.preset_dept.name,)
                     sid = sms_obj.create(cr, uid,
                                          {'to': data.internship.moblie.replace(' ','').replace('-',''),  #手机号码，如果多个人用,隔开
@@ -392,7 +395,7 @@ class internship_request(osv.osv):
                     if cm_ids:
                         msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会工作卡管理员消息', data.id, context=context)
                         if not msg:
-                            msg = u'%s所提出申请拟接收实习生%s，请及时登录内网处理。'
+                            msg = u'[%s]提出申请拟接收实习生%s，请及时登录内网处理。'
                             msg = msg%(data.preset_dept.name,data.internship.name)
                         self.message_post(cr, uid, ids,
                                           body= msg,
@@ -455,7 +458,7 @@ class internship_request(osv.osv):
                                          context=context)
 
             except Exception,ex:
-                _logger.exception(u'实习流程提交异常:%s'%str(ex))
+                _logger.exception(u'upintership.request exception')
                 pass
 
     def reject(self, cr, uid ,ids, context={}):
