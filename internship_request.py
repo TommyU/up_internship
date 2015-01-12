@@ -284,8 +284,8 @@ class internship_request(osv.osv):
         for data in self.browse(cr, uid, ids, context):
             try:
 
-                #cm_ids = self.get_uids(cr, uid, data.id, 'up_internship.group_badge_card_manager', context=context)
-                #group_clerk_uids = self.get_uids(cr, uid, data.id, 'up_internship.group_clerk', context=context)
+                #cm_ids = self.get_uids(cr, uid, data.id, 'up_internship.group_badge_card_manager', data, context=context)
+                #group_clerk_uids = self.get_uids(cr, uid, data.id, 'up_internship.group_clerk', data, context=context)
                 # self.send_BA_msg(cr, uid, data.id,
                 #                  u'[实习管理流程]' + data.internship.name + '(state code:'+data.state + ')',
                 #                  content='',
@@ -391,7 +391,7 @@ class internship_request(osv.osv):
                                           'res_id': data.id}, #相关ID
                                          context=context)
                     #工作卡管理员(up_internship.group_badge_card_manager)
-                    cm_ids = self.get_uids(cr, uid, data.id, 'up_internship.group_badge_card_manager', context=context)
+                    cm_ids = self.get_uids(cr, uid, data.id, 'up_internship.group_badge_card_manager', data,context=context)
                     if cm_ids:
                         msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会工作卡管理员消息', data.id, context=context)
                         if not msg:
@@ -413,7 +413,7 @@ class internship_request(osv.osv):
                         )
 
                     #部门文员(up_internship.group_clerk)
-                    group_clerk_uids = self.get_uids(cr, uid, data.id, 'up_internship.group_clerk', context=context)
+                    group_clerk_uids = self.get_uids(cr, uid, data.id, 'up_internship.group_clerk', data,context=context)
                     if group_clerk_uids:
                         msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会部门文员消息', data.id, context=context)
                         if not msg:
