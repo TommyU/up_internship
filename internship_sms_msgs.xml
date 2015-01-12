@@ -14,7 +14,7 @@
             <field name="res_type">internship.request</field>
             <field name="act_from_id" ref="internship_request_act_director_audit"/>
             <field name="act_to_id" ref="internship_request_act_hr"/>
-            <field name="default_msg">{{applier}}所提出申请拟接收实习生{{internship}}，请及时登录内网处理</field>
+            <field name="default_msg">[{{preset_dept}}]{{applier}}提出申请拟接收实习生{{internship}}，请及时登录内网处理</field>
             <field name="follower_default_msg">.</field>
         </record>
 
@@ -22,7 +22,7 @@
             <field name="res_type">internship.request</field>
             <field name="act_from_id" ref="internship_request_act_hr"/>
             <field name="act_to_id" ref="internship_request_act_meal_card"/>
-            <field name="default_msg">{{preset_dept}}所实习生{{internship}}已办结入院手续，请发卡</field>
+            <field name="default_msg">[{{preset_dept}}]实习生{{internship}}已办结入院手续，请发卡</field>
             <field name="follower_default_msg">.</field>
         </record>
 
