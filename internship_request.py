@@ -212,7 +212,7 @@ class internship_request(osv.osv):
         限制删除在跑的单据
         """
         for req in self.browse(cr,uid,ids,context=context):
-            if req.state not in ('draft','stoped'):
+            if uid!=1 and req.state not in ('draft','stoped'):
                 raise osv.except_osv(_('Fobbidden!'),
                                      _('Records that are not in draf status could not be deleted!'))
 
