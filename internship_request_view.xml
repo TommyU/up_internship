@@ -96,7 +96,7 @@
                                     <group>
                                         <group>
                                             <field name="checkin_company_date" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)],'required':[('state','in',('hr',))]}"/>
-                                            <field name="checkin_hotel_date" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)],'required':[('state','in',('hr',))]}"/>
+                                            <field name="checkin_hotel_date" attrs="{'readonly':['|',('state','not in',('hr','checking_out')),('cuid_auddit','=',False)],'required':[('state','in',('checking_out',))]}"/>
                                         </group>
                                         <group>
                                             <field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)]}"/>
@@ -106,6 +106,7 @@
                                     </group>
                                     <group>
                                         <field widget="text" name="hotel_reception_message" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)]}"/>
+                                        <field widget="text" name="hr_notes" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)]}"/>
                                         <field name="arrival_notice" attrs="{'readonly':['|',('state','not in',('hr',)),('cuid_auddit','=',False)]}" invisible="1"/>
                                     </group>
                                     <button type="object" confirm = "Are you sure to send the message?" name="notify_receptionist" string="send message" attrs="{'invisible':['|',('hotel_receptionist_tel','=',False),('hotel_reception_message','=',False)]}"/>
@@ -157,8 +158,11 @@
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
                 <search string="Internship Request">
+                    <field name="internship"/>
+                    <field name="state"/>
                     <filter icon="terp-check" name="cuid_auddit" string="to approve/reject" domain="[('cuid_auddit','=',True)]" help="requests that need my approval"/>
                     <filter icon="terp-check" name="cuid_is_creator" string="my request" domain="[('cuid_is_creator','=',True)]" help="requests that created by me"/>
+                    <filter icon="terp-check" name="filter_accepted" string="实习中" domain="[('state','=','accepted')]" help="状态为实习中的单据"/>
                     <newline/>
                     <group expand="0" string="Group By...">
                         <filter string="Preset dept." domain="[]" context="{'group_by':'preset_dept'}"/>

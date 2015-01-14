@@ -47,5 +47,51 @@
             </field>
         </record>
 
+        <record id="view_recruitment_internships_search" model="ir.ui.view">
+            <field name="name">hr.member.state.search</field>
+            <field name="model">hr.member</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="up_recuitment.view_up_recuitment_search"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="intern_status"/>
+                    <field name="name"/>
+                    <newline/>
+                    <filter name="filter_stoped" string="入院审批中" icon="terp-accessories-archiver" domain="[('intern_status','in',('new','director_audit','hr','meal_card'))]"/>
+                    <filter name="filter_accepted" string="实习中" icon="terp-accessories-archiver" domain="[('intern_status','=','accepted')]"/>
+                    <filter name="filter_stoped" string="离院审批中" icon="terp-accessories-archiver" domain="[('intern_status','in',('to_resign','manager_appr','diet_record','director_appr','checking_out',))]"/>
+                    <filter name="filter_resigned" string="已离院" icon="terp-accessories-archiver" domain="[('intern_status','=','resigned')]"/>
+                    <filter name="filter_stoped" string="中止" icon="terp-accessories-archiver" domain="[('intern_status','=','stoped')]"/>
+                    <newline/>
+                    <filter name="filter_stoped" string="提出申请" icon="terp-accessories-archiver" domain="[('intern_status','=','new')]"/>
+                    <filter name="filter_director_audit" string="所长审批" icon="terp-accessories-archiver" domain="[('intern_status','=','director_audit')]"/>
+                    <filter name="filter_hr" string="人事审核" icon="terp-accessories-archiver" domain="[('intern_status','=','hr')]"/>
+                    <filter name="filter_meal_card" string="工作卡管理" icon="terp-accessories-archiver" domain="[('intern_status','=','meal_card')]"/>
+                    <newline/>
+                    <filter name="filter_to_resign" string="离院审批" icon="terp-accessories-archiver" domain="[('intern_status','=','to_resign')]"/>
+                    <filter name="filter_manager_appr" string="工作卡退回" icon="terp-accessories-archiver" domain="[('intern_status','=','manager_appr')]"/>
+                    <filter name="filter_diet_record" string="用餐记录上传" icon="terp-accessories-archiver" domain="[('intern_status','=','diet_record')]"/>
+                    <filter name="filter_director_appr" string="餐费审批" icon="terp-accessories-archiver" domain="[('intern_status','=','director_appr')]"/>
+                    <filter name="filter_checking_out" string="退房登记" icon="terp-accessories-archiver" domain="[('intern_status','=','checking_out')]"/>
+
+                    <group expand="0" string="分组">
+                        <filter string="类型" domain="[]" context="{'group_by':'type'}"/>
+                        <filter string="性别" domain="[]" context="{'group_by':'gender'}"/>
+                        <filter string="专业" domain="[]" context="{'group_by':'major'}"/>
+                    </group>
+                </field>
+            </field>
+        </record>
+
+        <!--<record model="ir.actions.act_window" id="up_recuitment.view_up_recuitment_search">-->
+            <!--<field name="name">实习生管理</field>-->
+            <!--<field name="type">ir.actions.act_window</field>-->
+            <!--<field name="res_model">hr.member</field>-->
+            <!--<field name="view_type">form</field>-->
+            <!--<field name="view_mode">tree,form</field>-->
+            <!--<field name="search_view_id" ref="up_recuitment.view_up_recuitment_search"/>-->
+        <!--</record>-->
+
+
     </data>
 </openerp>

@@ -485,6 +485,12 @@ msgid "reception message"
 msgstr "短信消息"
 
 #. module: up_internship
+#: field:internship.request,hr_notes:0
+#: model:ir.model.fields,field_description:up_internship.field_internship_request_hr_notes
+msgid "reception message"
+msgstr "备注"
+
+#. module: up_internship
 #: view:internship.request:0
 msgid "Are you sure to send the message?"
 msgstr "确定给(迪富)酒店接收人发送’短信消息'中的短息么?"

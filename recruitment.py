@@ -47,6 +47,43 @@ class recruitment_interships(osv.Model):
             res[ms.id]= bool(internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('draft','stoped','resigned'))]))
         return res
 
+    #_interning_search
+    def _intern_status_search(self, cr, uid, obj, name, args, context):
+        if args:
+            state = args[0][2]
+            if isinstance(state, (str,unicode)):
+                state = [state]
+            # intern_obj = self.pool.get('internship.request')
+            # iids=intern_obj.search(cr, uid, [('state','=',state)],context=context)
+            # ids =[x.internship.id for x in intern_obj.browse(cr,uid, iids,context=context)]
+            #以上算法无法处理有多次实习的记录
+            sql="""select id, internship,state from internship_request where internship in
+                    (
+                      select internship from internship_request b where b.state in (%s)
+                    ) order by id desc"""%('\''+'\',\''.join(state)+'\'')
+            cr.execute(sql)
+            res = cr.fetchall()
+            # 8;14;"meal_card"
+            # 7;3;"meal_card"
+            # 6;3;"resigned"
+            # 5;7;"meal_card"
+            #===>(internship有相同则取最上面一条）
+            # 8;14;"meal_card"
+            # 7;3;"meal_card"
+            # 5;7;"meal_card"
+            ids=[]
+            res_=[]
+            for i in range(len(res)):
+                if res[i][1] not in ids:
+                    ids.append(res[i][1])
+                    res_.append(res[i])#得到最新的实习记录的状态（若有重复实习记录）
+            if res_:
+                res_ = [x for x in res_ if x[2] in state]#若有重复则最新的状态等于目标状态
+                ids = [x[1] for x in res_]
+                if ids:
+                    return [('id', 'in', tuple(ids))]
+        return [('id', '=', '0')]
+
     def _status(self, cr, uid, ids, field_name, args, context=None):
         res = {}
         model = self._name
@@ -82,9 +119,9 @@ class recruitment_interships(osv.Model):
         return res
 
     _columns = {
-        'interning':fields.function(_interning, string='interning', type='boolean',readonly=True),
+        'interning':fields.function(_interning,string='interning', type='boolean',readonly=True),
         'internships': fields.function(_get_internships, string='internships', type='one2many', relation="internship.request",readonly=True),
-        'intern_status':fields.function(_status, string='intern status', type='selection',readonly=True,
+        'intern_status':fields.function(_status,fnct_search=_intern_status_search, string='intern status', type='selection',readonly=True,
                                  selection=[
                                      ('none','none'),
                                      ('new','new'),
@@ -95,7 +132,7 @@ class recruitment_interships(osv.Model):
                                      ('to_resign',u'离院审批'),
                                      ('manager_appr',u'工作卡退回'),
                                      ('diet_record','diet records upload'),
-                                     ('director_appr','director approval'),
+                                     ('director_appr',u'餐费审批'),
                                      ('checking_out','checking out'),
                                      ('resigned','resigned'),
                                      ('stoped','stoped'),

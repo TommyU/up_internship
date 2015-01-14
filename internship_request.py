@@ -187,6 +187,7 @@ class internship_request(osv.osv):
         #'c_date': fields.date(string='create date',  required=True),
         'name':fields.function(_get_name,type='char'),
         'applier':fields.many2one('res.users',string="applier"),
+        'hr_notes':fields.char('notes', max_length=1024),
         }
 
     _defaults={
