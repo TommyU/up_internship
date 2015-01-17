@@ -92,7 +92,7 @@ class recruitment_interships(osv.Model):
         model_obj = self.pool.get(model)
         internship_obj = self.pool.get('internship.request')
         for ms in model_obj.browse(cr,uid,ids,context=context):
-            in_ids = internship_obj.search(cr,uid,[('internship','=',ms.id)])#,('state','not in',('draft','stoped','resigned'))
+            in_ids = internship_obj.search(cr,1,[('internship','=',ms.id)])#,('state','not in',('draft','stoped','resigned'))
             if in_ids:
                 res[ms.id] = internship_obj.browse(cr, uid, in_ids[-1], context).state
             else:
