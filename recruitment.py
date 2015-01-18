@@ -53,10 +53,6 @@ class recruitment_interships(osv.Model):
             state = args[0][2]
             if isinstance(state, (str,unicode)):
                 state = [state]
-            # intern_obj = self.pool.get('internship.request')
-            # iids=intern_obj.search(cr, uid, [('state','=',state)],context=context)
-            # ids =[x.internship.id for x in intern_obj.browse(cr,uid, iids,context=context)]
-            #以上算法无法处理有多次实习的记录
             sql="""select id, internship,state from internship_request where internship in
                     (
                       select internship from internship_request b where b.state in (%s)
@@ -77,11 +73,18 @@ class recruitment_interships(osv.Model):
                 if res[i][1] not in ids:
                     ids.append(res[i][1])
                     res_.append(res[i])#得到最新的实习记录的状态（若有重复实习记录）
+            ids= []
+            if 'none' in state:#如果状态查询中有none，则需要特别处理
+                sql = 'select id from hr_member where id not in (select distinct internship from internship_request);'
+                cr.execute(sql)
+                t=cr.fetchall()
+                for t_line in t:
+                    ids.append(t_line[0])
             if res_:
                 res_ = [x for x in res_ if x[2] in state]#若有重复则最新的状态等于目标状态
-                ids = [x[1] for x in res_]
-                if ids:
-                    return [('id', 'in', tuple(ids))]
+                ids.extend([x[1] for x in res_])
+            if ids:
+                return [('id', 'in', tuple(ids))]
         return [('id', '=', '0')]
 
     def _status(self, cr, uid, ids, field_name, args, context=None):

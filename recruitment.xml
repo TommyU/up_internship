@@ -57,6 +57,7 @@
                     <field name="intern_status"/>
                     <field name="name"/>
                     <newline/>
+                    <filter name="filter_none" string="待接收" icon="terp-accessories-archiver" domain="[('intern_status','in',('none',))]"/>
                     <filter name="filter_stoped" string="入院审批中" icon="terp-accessories-archiver" domain="[('intern_status','in',('new','director_audit','hr','meal_card'))]"/>
                     <filter name="filter_accepted" string="实习中" icon="terp-accessories-archiver" domain="[('intern_status','=','accepted')]"/>
                     <filter name="filter_stoped" string="离院审批中" icon="terp-accessories-archiver" domain="[('intern_status','in',('to_resign','manager_appr','diet_record','director_appr','checking_out',))]"/>
