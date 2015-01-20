@@ -629,3 +629,13 @@ msgstr "参数"
 #: model:ir.model.fields,field_description:up_internship.field_internship_request_args_value
 msgid "value"
 msgstr "值"
+
+#. module: up_internship
+#: model:ir.actions.act_window,name:up_internship.act_open_internship_request_admin_view
+msgid "Internship Request(for admin)"
+msgstr "实习管理(后台)"
+
+#. module: up_internship
+#: model:ir.ui.menu,name:up_internship.menu_internship_request_admin
+msgid "intership management(for admin)"
+msgstr "实习管理(后台)"

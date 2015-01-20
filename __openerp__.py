@@ -33,6 +33,7 @@
     'init_xml': [],
     'update_xml': [
         'internship_request_view.xml',
+        'internship_request_admin_view.xml',
         'internship_hotel_receptionist_view.xml',
         'internship_request_wkf.xml',
         'recruitment.xml',

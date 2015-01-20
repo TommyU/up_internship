@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+
+        <record id="view_internship_request_admin_tree" model="ir.ui.view">
+            <field name="name">internship.request.tree.admin</field>
+            <field name="model">internship.request</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <tree string="Internship Request">
+                    <field name="internship" />
+                    <field name="preset_dept"/>
+                    <field name="preset_instructor"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_internship_request_admin_form" model="ir.ui.view">
+            <field name="name">internship.request.form.admin</field>
+            <field name="model">internship.request</field>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <form string="Internship Request" version="7.0">
+                    <header>
+                        <!--<button name="submit" type="workflow_submit" string="submit" states="new," groups="base.group_user"/>-->
+                        <!--<button name="submit" type="workflow_ok" string="approve" attrs="{'invisible':['|',('state','in',('new','stoped','resigned','accepted')),('cuid_auddit','=',False)]}"/>-->
+                        <!--<button name="submit" type="workflow_ok" string="to quit" attrs="{'invisible':['|',('state','not in',('accepted',)),('cuid_auddit','=',False)]}"/>-->
+                        <!--<button name="reject" type="workflow_no" string="reject" attrs="{'invisible':['|',('state','not in',('director_appr',)),('cuid_auddit','=',False)]}"/>-->
+                        <!--<button name="cancel" type="workflow_cancel" string="cancel" attrs="{'invisible':['|',('state','not in',('director_audit','hr')),('cuid_auddit','=',False)]}"/>-->
+                        <!--<button name="%(up_internship.report_checkin)d" type="action" string="print checkin notification" attrs="{'invisible':[('state','not in',('hr',))]}" groups="up_internship.group_internship_instructor"/>-->
+                        <!--<button name="%(up_internship.report_checkout)d" type="action" string="print checkout notification" attrs="{'invisible':[('state','not in',('checking_out',))]}" groups="up_internship.group_internship_instructor"/>-->
+                        <field name="state" widget="statusbar" statusbar_visible="new,director_audit,hr,meal_card,accepted,to_resign,resigned"/>
+                    </header>
+                    <sheet>
+                        <field name="cuid_auddit" invisible="1"/>
+                        <field name="cuid_is_creator" invisible="1"/>
+                        <field name="applier" invisible="1"/>
+                        <group><field name="internship" on_change="onchange_internship(internship)" attrs="{'readonly':[('state','not in',('draft',))]}"/></group>
+                        <group>
+                            <notebook>
+                                <page string="application">
+                                    <group>
+                                        <field name="preset_dept"/>
+                                        <field name="preset_instructor"/>
+                                        <field name="start_date"/>
+                                        <field name="end_date"/>
+                                    </group>
+                                </page>
+                                <page string="acceptance" states="meal_card,accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
+                                    <group>
+                                        <group>
+                                            <field name="checkin_company_date" attrs="{'required':[('state','in',('meal_card','accepted','to_resign','manager_appr','diet_record','director_appr','checking_out','resigned'))]}"/>
+                                            <field name="checkin_hotel_date" attrs="{'required':[('state','in',('checking_out','resigned'))]}"/>
+                                        </group>
+                                        <group>
+                                            <field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" />
+                                            <field name="hotel_receptionist_tel" />
+                                        </group>
+
+                                    </group>
+                                    <group>
+                                        <field widget="text" name="hotel_reception_message" />
+                                        <field widget="text" name="hr_notes" />
+                                        <field name="arrival_notice"  invisible="1"/>
+                                    </group>
+                                    <button type="object" confirm = "Are you sure to send the message?" name="notify_receptionist" string="send message" attrs="{'invisible':['|',('hotel_receptionist_tel','=',False),('hotel_reception_message','=',False)]}"/>
+
+                                </page>
+                                <page string="working card" states="accepted,to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
+                                    <group>
+                                        <field name="meal_card_no"  />
+                                        <field name="meal_card_status"  attrs="{'required':[('state','in',('accepted','to_resign','manager_appr','diet_record','director_appr','checking_out','resigned'))]}"/>
+                                        <field name="pledge_money_state"  attrs="{'required':[('state','in',('accepted','to_resign','manager_appr','diet_record','director_appr','checking_out','resigned'))]}"/>
+                                        <field name="meal_card_memo" widget="text"/>
+                                    </group>
+                                </page>
+                                <page string="resignation" states="to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
+                                    <group>
+                                        <field name="resignation_date"  attrs="{'required':[('state','in',('to_resign','manager_appr','diet_record','director_appr','checking_out','resigned'))]}"/>
+                                        <field name="diet_record_needed" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'required':[('state','in',('diet_record','director_appr','checking_out','resigned'))]}" style="width:80px"/>
+                                        <field name="diet_record" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'required':[('diet_record_needed','=','yes')]}"  filename="diet_record_name"/>
+                                        <field name="diet_record_name" invisible="1" />
+                                        <label for="hotel_checkout_date"/>
+                                        <div class="oe_inline">
+                                            <field class="oe_inline" no_label="1" name="hotel_checkout_date" attrs="{'required':[('state','in',('to_resign','manager_appr','diet_record','director_appr','checking_out','resigned'))]}"/>
+                                            <field class="oe_inline" no_label="1" name="hotel_checkout_hour" states="checking_out,resigned,stoped" attrs="{'required':[('state','in',('checking_out','resigned'))]}"/>
+                                        </div>
+                                    </group>
+                                </page>
+                                <page string="audditing logs">
+                                    <field name="audditing_logs">
+                                        <tree string="audditing_logs">
+                                            <field name="uid" string="签字人"/>
+                                            <field name="act_name" />
+                                            <field name="status" />
+                                            <field name="time" />
+                                            <field name="info" />
+
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_internship_request_admin_search" model="ir.ui.view">
+            <field name="name">internship.request.search.admin</field>
+            <field name="model">internship.request</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <search string="Internship Request">
+                    <field name="internship"/>
+                    <field name="state"/>
+                    <!--<filter icon="terp-check" name="cuid_auddit" string="to approve/reject" domain="[('cuid_auddit','=',True)]" help="requests that need my approval"/>-->
+                    <!--<filter icon="terp-check" name="cuid_is_creator" string="my request" domain="[('cuid_is_creator','=',True)]" help="requests that created by me"/>-->
+                    <filter icon="terp-check" name="filter_accepted" string="实习中" domain="[('state','=','accepted')]" help="状态为实习中的单据"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Preset dept." domain="[]" context="{'group_by':'preset_dept'}"/>
+                        <filter string="preset instructor" domain="[]" context="{'group_by':'preset_instructor'}"/>
+                        <filter string="start date" domain="[]" context="{'group_by':'start_date'}"/>
+                        <filter string="end date" domain="[]" context="{'group_by':'end_date'}"/>
+                        <filter string="checkin company date" domain="[]" context="{'group_by':'checkin_company_date'}"/>
+                        <filter string="checkin hotel date" domain="[]" context="{'group_by':'checkin_hotel_date'}"/>
+                        <filter string="hotel receptionist " domain="[]" context="{'group_by':'hotel_receptionist '}"/>
+                        <filter string="working card no." domain="[]" context="{'group_by':'meal_card_no'}"/>
+                        <filter string="working card status" domain="[]" context="{'group_by':'meal_card_status'}"/>
+                        <filter string="pledge money state" domain="[]" context="{'group_by':'pledge_money_state'}"/>
+                        <filter string="hotel checkout date" domain="[]" context="{'group_by':'hotel_checkout_date'}"/>
+                        <filter string="resignation date" domain="[]" context="{'group_by':'resignation_date'}"/>
+                        <filter string="internship" domain="[]" context="{'group_by':'internship'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_internship_request_admin_view">
+            <field name="name">Internship Request(for admin)</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internship.request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_internship_request_admin_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{'default_applier':uid}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_internship_request_admin_view_form">
+            <field name="act_window_id" ref="act_open_internship_request_admin_view"/>
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_internship_request_admin_form"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_internship_request_admin_view_tree">
+            <field name="act_window_id" ref="act_open_internship_request_admin_view"/>
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_internship_request_admin_tree"/>
+        </record>
+
+        <menuitem name="intership management(for admin)" id="menu_internship_request_admin" sequence="11" groups="base.group_system"
+                  parent="up_recuitment.menu_recruitment_root" action="act_open_internship_request_admin_view"/>
+
+    </data>
+</openerp>
