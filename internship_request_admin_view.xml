@@ -54,7 +54,7 @@
                                     <group>
                                         <group>
                                             <field name="checkin_company_date" attrs="{'required':[('state','in',('meal_card','accepted','to_resign','manager_appr','diet_record','director_appr','checking_out','resigned'))]}"/>
-                                            <field name="checkin_hotel_date" attrs="{'required':[('state','in',('checking_out','resigned'))]}"/>
+                                            <field name="checkin_hotel_date" attrs="{'required':[('state','in',('resigned',))]}"/>
                                         </group>
                                         <group>
                                             <field name="hotel_receptionist" on_change="onchange_hotel_receptionist(hotel_receptionist)" />
@@ -81,13 +81,13 @@
                                 <page string="resignation" states="to_resign,manager_appr,diet_record,director_appr,checking_out,resigned,stoped">
                                     <group>
                                         <field name="resignation_date"  attrs="{'required':[('state','in',('to_resign','manager_appr','diet_record','director_appr','checking_out','resigned'))]}"/>
-                                        <field name="diet_record_needed" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'required':[('state','in',('diet_record','director_appr','checking_out','resigned'))]}" style="width:80px"/>
-                                        <field name="diet_record" states="diet_record,director_appr,checking_out,resigned,stoped"  attrs="{'required':[('diet_record_needed','=','yes')]}"  filename="diet_record_name"/>
+                                        <field name="diet_record_needed" states="director_appr,checking_out,resigned,stoped"  attrs="{'required':[('state','in',('director_appr','checking_out','resigned'))]}" style="width:80px"/>
+                                        <field name="diet_record" states="director_appr,checking_out,resigned,stoped"  attrs="{'required':[('diet_record_needed','=','yes')]}"  filename="diet_record_name"/>
                                         <field name="diet_record_name" invisible="1" />
                                         <label for="hotel_checkout_date"/>
                                         <div class="oe_inline">
                                             <field class="oe_inline" no_label="1" name="hotel_checkout_date" attrs="{'required':[('state','in',('to_resign','manager_appr','diet_record','director_appr','checking_out','resigned'))]}"/>
-                                            <field class="oe_inline" no_label="1" name="hotel_checkout_hour" states="checking_out,resigned,stoped" attrs="{'required':[('state','in',('checking_out','resigned'))]}"/>
+                                            <field class="oe_inline" no_label="1" name="hotel_checkout_hour" states="resigned,stoped" attrs="{'required':[('state','in',('resigned',))]}"/>
                                         </div>
                                     </group>
                                 </page>
