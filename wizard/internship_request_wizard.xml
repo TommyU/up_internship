@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+        <!--  办理社保 -->
+        <record id="view_internship_request_social_secured" model="ir.ui.view">
+            <field name="name">社保确认</field>
+            <field name="model">internship.request.wizard</field>
+            <field name="arch" type="xml">
+             <form string='社保确认' version="7.0">
+                <p class="oe_grey">
+                   提示：您确定将所有选中的实习生标记为“已办理社保”？
+                </p>
+                <footer>
+                    <button name="mark_hr_member_as_social_secured" string="Submit" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_internship_request_social_secured" model="ir.actions.act_window">
+            <field name="name">社保确认</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internship.request.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+        <record id ="action_internship_request_social_secured_view" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_internship_request_social_secured"/>
+            <field name="sequence">20</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref = "view_internship_request_social_secured"/>
+        </record>
+
+        <record id="ir_hr_member_social_secured" model="ir.values">
+            <field eval="'client_action_multi'" name="key2"/>
+            <field eval="'hr.member'" name="model"/>
+            <field name="name">社保确认</field>
+            <field eval="'ir.actions.act_window,'+str(action_internship_request_social_secured)" name="value"/>
+        </record>
+
+        <!--  办理迁出 -->
+        <record id="view_internship_request_social_security_out" model="ir.ui.view">
+            <field name="name">社保迁出</field>
+            <field name="model">internship.request.wizard</field>
+            <field name="arch" type="xml">
+             <form string='社保确认' version="7.0">
+                <p class="oe_grey">
+                   提示：您确定将所有选中的实习生标记为“社保已迁出”？
+                </p>
+                <footer>
+                    <button name="mark_hr_member_as_social_security_out" string="Submit" type="object" class="oe_highlight"/>
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+                </footer>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_internship_request_social_security_out" model="ir.actions.act_window">
+            <field name="name">社保迁出</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internship.request.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <record id ="action_internship_request_social_security_out_view" model="ir.actions.act_window.view">
+            <field name="act_window_id" ref="action_internship_request_social_security_out"/>
+            <field name="sequence">20</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref = "view_internship_request_social_security_out"/>
+        </record>
+
+        <record id="ir_hr_member_social_security_out" model="ir.values">
+            <field eval="'client_action_multi'" name="key2"/>
+            <field eval="'hr.member'" name="model"/>
+            <field name="name">社保迁出</field>
+            <field eval="'ir.actions.act_window,'+str(action_internship_request_social_security_out)" name="value"/>
+        </record>
+    </data>
+</openerp>

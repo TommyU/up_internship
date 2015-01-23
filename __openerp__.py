@@ -41,6 +41,7 @@
         'internship_sms_msgs.xml',
         'security/ir.model.access.csv',
         'res_groups.xml',
+        'wizard/internship_request_wizard.xml',
     ],
     'demo_xml': [],
     'test': [

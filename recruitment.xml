@@ -19,6 +19,25 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="社保信息">
+                            <group>
+                                <field name="social_security_card_no"/>
+                                <field name="social_security_pc_no"/>
+                                <field name="social_security_singed_date"/>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="social_security_processed"/>
+                                    <field name="social_security_processer"/>
+                                    <field name="social_security_processed_date"/>
+                                </group>
+                                <group>
+                                    <field name="social_security_out"/>
+                                    <field name="social_security_outer"/>
+                                    <field name="social_security_out_date"/>
+                                </group>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
             </field>
@@ -43,6 +62,9 @@
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="intern_status"/>
+                    <field name="intern_dept"/>
+                    <field name="social_security_processed"/>
+                    <field name="social_security_out"/>
                 </field>
             </field>
         </record>

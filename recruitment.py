@@ -121,26 +121,58 @@ class recruitment_interships(osv.Model):
                 res[ms.id]=False
         return res
 
+    def _internDept(self, cr, uid, ids, field_name, args, context=None):
+        res = {}
+        model = self._name
+        if not model:
+            return {}
+        model_obj = self.pool.get(model)
+        internship_obj = self.pool.get('internship.request')
+        for ms in model_obj.browse(cr,uid,ids,context=context):
+            in_ids = internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('stoped','resigned'))])
+            if in_ids:
+                d = internship_obj.browse(cr, uid, in_ids[-1], context).preset_dept
+                if d.exists():
+                    res[ms.id] = d.id
+                else:
+                    res[ms.id]=False
+            else:
+                res[ms.id]=False
+        return res
+
     _columns = {
         'interning':fields.function(_interning,string='interning', type='boolean',readonly=True),
         'internships': fields.function(_get_internships, string='internships', type='one2many', relation="internship.request",readonly=True),
         'intern_status':fields.function(_status,fnct_search=_intern_status_search, string='intern status', type='selection',readonly=True,
                                  selection=[
-                                     ('none','none'),
-                                     ('new','new'),
-                                     ('director_audit','director approval'),
-                                     ('hr','HR approval'),
-                                     ('meal_card','working card info'),
+                                     ('none',u'待接收'),
+                                     ('new',u'提出申请'),
+                                     ('director_audit',u'所长审批'),
+                                     ('hr',u'人事审核'),
+                                     ('meal_card',u'工作卡管理'),
                                      ('accepted',u'实习中'),
                                      ('to_resign',u'离院审批'),
                                      ('manager_appr',u'工作卡退回'),
-                                     ('diet_record','diet records upload'),
+                                     ('diet_record',u'用餐记录上传'),
                                      ('director_appr',u'餐费审批'),
-                                     ('checking_out','checking out'),
-                                     ('resigned','resigned'),
-                                     ('stoped','stoped'),
+                                     ('checking_out',u'退房登记'),
+                                     ('resigned',u'已离院'),
+                                     ('stoped',u'中止'),
                                  ]),
         'intern_create_date':fields.function(_internCD, string='intern starting date', type='date',readonly=True),
+        'intern_dept':fields.function(_internDept, string=u'拟定实习部门', type='many2one', relation='hr.department',readonly=True),
+        #社保基本信息
+        'social_security_card_no':fields.char(u'卡号',size=100),
+        'social_security_pc_no':fields.char(u'电脑号',size=100),
+        'social_security_singed_date':fields.date(u'签发日期'),
+        #社保办理(实习中)
+        'social_security_processed':fields.boolean(u'已办社保'),
+        'social_security_processer':fields.many2one('res.users', string =u'社保办理确认人'),
+        'social_security_processed_date':fields.date(u'社保办理确认时间'),
+        #社保迁出(已离院)
+        'social_security_out':fields.boolean(u'已迁出社保'),
+        'social_security_outer':fields.many2one('res.users', string =u'社保迁出确认人'),
+        'social_security_out_date':fields.date(u'社保迁出确认时间'),
     }
 
 recruitment_interships()
