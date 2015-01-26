@@ -201,7 +201,7 @@ class internship_request(osv.osv):
         当一个实习生进入到草稿-已离院状态间，用户不能再创建新的实习申请记录
         """
         if vals.get('internship',False):
-            ids = self.search(cr, uid, [('internship','=',vals.get('internship',-1)),('state','not in',('draft','stoped','resigned'))], context =context)
+            ids = self.search(cr, 1, [('internship','=',vals.get('internship',-1)),('state','not in',('draft','stoped','resigned'))], context =context)
             if ids:
                 raise osv.except_osv(_('Fobbidden!'),
                                      _('This intern has another request which is under audditting!.'))
