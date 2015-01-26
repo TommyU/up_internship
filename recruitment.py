@@ -166,13 +166,13 @@ class recruitment_interships(osv.Model):
         'social_security_pc_no':fields.char(u'电脑号',size=100),
         'social_security_singed_date':fields.date(u'签发日期'),
         #社保办理(实习中)
-        'social_security_processed':fields.boolean(u'已办社保'),
-        'social_security_processer':fields.many2one('res.users', string =u'社保办理确认人'),
-        'social_security_processed_date':fields.date(u'社保办理确认时间'),
+        'social_security_processed':fields.boolean(u'已办保险'),
+        'social_security_processer':fields.many2one('res.users', string =u'保险办理确认人'),
+        'social_security_processed_date':fields.date(u'保险办理确认时间'),
         #社保迁出(已离院)
-        'social_security_out':fields.boolean(u'已迁出社保'),
-        'social_security_outer':fields.many2one('res.users', string =u'社保迁出确认人'),
-        'social_security_out_date':fields.date(u'社保迁出确认时间'),
+        'social_security_out':fields.boolean(u'已迁出保险'),
+        'social_security_outer':fields.many2one('res.users', string =u'保险迁出确认人'),
+        'social_security_out_date':fields.date(u'保险迁出确认时间'),
     }
 
 recruitment_interships()
