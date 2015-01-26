@@ -19,7 +19,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="社保信息">
+                        <page string="保险信息">
                             <group invisible="1">
                                 <field name="social_security_card_no" />
                                 <field name="social_security_pc_no" />
