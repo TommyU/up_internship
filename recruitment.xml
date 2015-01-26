@@ -20,21 +20,21 @@
                             </field>
                         </page>
                         <page string="社保信息">
-                            <group>
-                                <field name="social_security_card_no"/>
-                                <field name="social_security_pc_no"/>
-                                <field name="social_security_singed_date"/>
+                            <group invisible="1">
+                                <field name="social_security_card_no" />
+                                <field name="social_security_pc_no" />
+                                <field name="social_security_singed_date" />
                             </group>
                             <group>
                                 <group>
-                                    <field name="social_security_processed"/>
-                                    <field name="social_security_processer"/>
-                                    <field name="social_security_processed_date"/>
+                                    <field name="social_security_processed" readonly="1"/>
+                                    <field name="social_security_processer" readonly="1"/>
+                                    <field name="social_security_processed_date" readonly="1"/>
                                 </group>
                                 <group>
-                                    <field name="social_security_out"/>
-                                    <field name="social_security_outer"/>
-                                    <field name="social_security_out_date"/>
+                                    <field name="social_security_out" readonly="1"/>
+                                    <field name="social_security_outer" readonly="1"/>
+                                    <field name="social_security_out_date" readonly="1"/>
                                 </group>
                             </group>
                         </page>
