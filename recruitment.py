@@ -33,7 +33,7 @@ class recruitment_interships(osv.Model):
         model_obj = self.pool.get(model)
         internship_obj = self.pool.get('internship.request')
         for ms in model_obj.browse(cr,uid,ids,context=context):
-            res[ms.id]= internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('draft',))])
+            res[ms.id]= internship_obj.search(cr,1,[('internship','=',ms.id),('state','not in',('draft',))])
         return res
 
     def _interning(self, cr, uid, ids, field_name, args, context=None):
@@ -44,7 +44,7 @@ class recruitment_interships(osv.Model):
         model_obj = self.pool.get(model)
         internship_obj = self.pool.get('internship.request')
         for ms in model_obj.browse(cr,uid,ids,context=context):
-            res[ms.id]= bool(internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('draft','stoped','resigned'))]))
+            res[ms.id]= bool(internship_obj.search(cr,1,[('internship','=',ms.id),('state','not in',('draft','stoped','resigned'))]))
         return res
 
     #_interning_search
@@ -110,7 +110,7 @@ class recruitment_interships(osv.Model):
         model_obj = self.pool.get(model)
         internship_obj = self.pool.get('internship.request')
         for ms in model_obj.browse(cr,uid,ids,context=context):
-            in_ids = internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('stoped','resigned'))])
+            in_ids = internship_obj.search(cr,1,[('internship','=',ms.id),('state','not in',('stoped','resigned'))])
             if in_ids:
                 d = internship_obj.browse(cr, uid, in_ids[-1], context).c_date
                 if d:
@@ -129,7 +129,7 @@ class recruitment_interships(osv.Model):
         model_obj = self.pool.get(model)
         internship_obj = self.pool.get('internship.request')
         for ms in model_obj.browse(cr,uid,ids,context=context):
-            in_ids = internship_obj.search(cr,uid,[('internship','=',ms.id),('state','not in',('stoped','resigned'))])
+            in_ids = internship_obj.search(cr,1,[('internship','=',ms.id),('state','not in',('stoped','resigned'))])
             if in_ids:
                 d = internship_obj.browse(cr, uid, in_ids[-1], context).preset_dept
                 if d.exists():
