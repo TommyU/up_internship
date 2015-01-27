@@ -303,7 +303,9 @@ class internship_request(osv.osv):
                         continue
                     mailed_users.append(au_id)
                     msg = msg_obj.get_message(cr,au_id, self._name, data.id, 'submit', context=context)
-                    _logger.warn('[msg debug]sms msg:%s'% msg)
+                    if not msg:
+                        continue
+                    #_logger.warn('[msg debug]sms msg:%s'% msg)
                     self.message_post(cr, uid, ids,
                                       body=msg or u'%s%s申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,bill_type),
                                       subject=u'[实习管理流程]'+data.internship.name  + bill_type +u'申请',
@@ -320,7 +322,7 @@ class internship_request(osv.osv):
                     )
 
                 #审批（系统消息）
-                if auditors:
+                if auditors and msg:
                     self.message_post(cr, uid, ids,
                                       body=msg or u'%s%s申请单已经提交至您，可能需要您审批或者查阅。'%(data.internship.name,bill_type),
                                       subject=u'[实习管理流程]'+data.internship.name  + bill_type +u'申请',
@@ -383,8 +385,8 @@ class internship_request(osv.osv):
                     #实习生
                     msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会实习生消息', data.id, context=context)
                     if not msg:
-                        msg = u'深规院[%s]拟同意接受你的实习申请，请你按照申请的实习时间准时报到，并保持手机畅通。'
-                        msg = msg%(data.preset_dept.name,)
+                        msg = u'深规院[%s]拟同意接受你的实习申请，请你按照申请的实习时间(%s)准时报到，并保持手机畅通。'
+                        msg = msg%(data.preset_dept.name,data.start_date)
                     sid = sms_obj.create(cr, uid,
                                          {'to': data.internship.moblie.replace(' ','').replace('-',''),  #手机号码，如果多个人用,隔开
                                           'content': msg, #短信内容
@@ -396,8 +398,8 @@ class internship_request(osv.osv):
                     if cm_ids:
                         msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会工作卡管理员消息', data.id, context=context)
                         if not msg:
-                            msg = u'[%s]提出申请拟接收实习生%s，请及时登录内网处理。'
-                            msg = msg%(data.preset_dept.name,data.internship.name)
+                            msg = u'[%s]提出申请拟接收实习生%s(实习开始时间:%s)，请及时登录内网处理。'
+                            msg = msg%(data.preset_dept.name,data.internship.name,data.start_date)
                         self.message_post(cr, uid, ids,
                                           body= msg,
                                           subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
@@ -418,8 +420,8 @@ class internship_request(osv.osv):
                     if group_clerk_uids:
                         msg = self._get_arg(cr, u'[实习管理流程]所长审批后知会部门文员消息', data.id, context=context)
                         if not msg:
-                            msg = u'实习生%s已通过审批进入本所，请及时与对方联系办理入院手续。'
-                            msg = msg%(data.internship.name,)
+                            msg = u'实习生%s已通过审批进入本所，请及时与对方联系办理入院手续(实习开始时间:%s)。'
+                            msg = msg%(data.internship.name,data.start_date)
                         self.message_post(cr, uid, ids,
                                           body= msg,
                                           subject=u'[实习管理流程]'+data.internship.name +u'实习申请',
