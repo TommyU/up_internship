@@ -284,7 +284,7 @@ class internship_request(osv.osv):
         #self.send_email(cr, uid, ids[0],sys_email='tommy.ywt@gmail.com',subject='sys email')
         for data in self.browse(cr, uid, ids, context):
             try:
-
+                context.update({'mail_create_nosubscribe':True})#默认不给关注的人发消息
                 #cm_ids = self.get_uids(cr, uid, data.id, 'up_internship.group_badge_card_manager', data, context=context)
                 #group_clerk_uids = self.get_uids(cr, uid, data.id, 'up_internship.group_clerk', data, context=context)
                 # self.send_BA_msg(cr, uid, data.id,
